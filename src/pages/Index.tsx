@@ -26,6 +26,26 @@ const families = {
   groomElders: "Grandson of Shri Madhav Mehra",
 };
 
+type FamilyMember = { name: string; relation: string };
+const familyMembers: { bride: FamilyMember[]; groom: FamilyMember[] } = {
+  bride: [
+    { name: "Shri Rajeev Sharma", relation: "Father of the Bride" },
+    { name: "Smt. Meera Sharma", relation: "Mother of the Bride" },
+    { name: "Rohan Sharma", relation: "Brother of the Bride" },
+    { name: "Ishita Sharma", relation: "Sister of the Bride" },
+    { name: "Shri Mohan Lal Sharma", relation: "Grandfather" },
+    { name: "Smt. Kamla Devi", relation: "Grandmother" },
+  ],
+  groom: [
+    { name: "Shri Vikram Mehra", relation: "Father of the Groom" },
+    { name: "Smt. Sunita Mehra", relation: "Mother of the Groom" },
+    { name: "Aditya Mehra", relation: "Brother of the Groom" },
+    { name: "Priya Mehra", relation: "Sister of the Groom" },
+    { name: "Shri Madhav Mehra", relation: "Grandfather" },
+    { name: "Smt. Lalita Mehra", relation: "Grandmother" },
+  ],
+};
+
 const events: EventData[] = [
   {
     name: "Engagement",
@@ -243,12 +263,79 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ============ 4. FAMILY & MEMORIES ============ */}
+      {/* ============ 4a. OUR FAMILIES (Bride & Groom Members) ============ */}
       <section className="relative px-5 py-24 md:py-32 bg-gradient-to-b from-ivory to-sandal/30">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
-            <SectionLabel>Our Beloved Families</SectionLabel>
-            <SectionTitle>With the Blessings of Our Families</SectionTitle>
+            <GaneshMark size={64} />
+            <SectionLabel>Our Families</SectionLabel>
+            <SectionTitle>The Hearts Behind This Union</SectionTitle>
+            <p className="font-serif-elegant italic text-maroon/70 mt-4 max-w-xl mx-auto">
+              Two families, woven together by love, tradition, and grace.
+            </p>
+            <GoldDivider />
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 md:gap-10">
+            {/* Bride Side */}
+            <div className="ornate-border paper-surface p-7 md:p-10 relative">
+              <span className="absolute top-4 right-5 text-gold text-xl float-slow" aria-hidden="true">❋</span>
+              <p className="font-display text-[0.65rem] uppercase tracking-[0.35em] text-gold-deep text-center mb-2">
+                Bride’s Family
+              </p>
+              <h3 className="font-script text-4xl md:text-5xl text-maroon-deep text-center mb-2">
+                The Sharmas
+              </h3>
+              <p className="font-serif-elegant italic text-center text-maroon/70 text-sm mb-6">
+                {families.brideElders}
+              </p>
+              <div className="gold-divider !my-5" />
+              <ul className="space-y-4">
+                {familyMembers.bride.map((m) => (
+                  <li key={m.name} className="text-center">
+                    <p className="font-display text-base md:text-lg text-maroon-deep">{m.name}</p>
+                    <p className="font-serif-elegant italic text-xs md:text-sm text-gold-deep tracking-wide">
+                      {m.relation}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Groom Side */}
+            <div className="ornate-border paper-surface p-7 md:p-10 relative">
+              <span className="absolute top-4 right-5 text-gold text-xl float-slow" aria-hidden="true">❋</span>
+              <p className="font-display text-[0.65rem] uppercase tracking-[0.35em] text-gold-deep text-center mb-2">
+                Groom’s Family
+              </p>
+              <h3 className="font-script text-4xl md:text-5xl text-maroon-deep text-center mb-2">
+                The Mehras
+              </h3>
+              <p className="font-serif-elegant italic text-center text-maroon/70 text-sm mb-6">
+                {families.groomElders}
+              </p>
+              <div className="gold-divider !my-5" />
+              <ul className="space-y-4">
+                {familyMembers.groom.map((m) => (
+                  <li key={m.name} className="text-center">
+                    <p className="font-display text-base md:text-lg text-maroon-deep">{m.name}</p>
+                    <p className="font-serif-elegant italic text-xs md:text-sm text-gold-deep tracking-wide">
+                      {m.relation}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ 4b. MEMORIES GALLERY ============ */}
+      <section className="relative px-5 py-24 md:py-32 bg-gradient-to-b from-sandal/30 to-ivory">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <SectionLabel>Cherished Memories</SectionLabel>
+            <SectionTitle>Moments That Led Us Here</SectionTitle>
             <p className="font-serif-elegant italic text-maroon/70 mt-6 max-w-xl mx-auto text-lg">
               A few moments that gently led us to this beautiful beginning.
             </p>
