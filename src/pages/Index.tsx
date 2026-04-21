@@ -11,6 +11,7 @@ import { GoldDivider, SectionLabel, SectionTitle, GaneshMark } from "@/component
 import { Countdown } from "@/components/wedding/Countdown";
 import { EventCard, type EventData } from "@/components/wedding/EventCard";
 import { RsvpAccept } from "@/components/wedding/RsvpAccept";
+import { BlessingsWall } from "@/components/wedding/BlessingsWall";
 
 // ------- Editable content (token-friendly) -------
 const guestName = "Esteemed Guest"; // {{guest_name}}
@@ -365,20 +366,18 @@ const Index = () => {
 
       {/* ============ 5. BLESSINGS WALL ============ */}
       <section className="relative px-5 py-24 md:py-32 bg-gradient-to-b from-sandal/40 to-ivory">
-        <div className="max-w-2xl mx-auto text-center">
-          <Heart className="w-8 h-8 text-vermilion mx-auto mb-4" />
-          <SectionLabel>With Your Blessings</SectionLabel>
-          <p className="font-script text-5xl md:text-7xl text-maroon leading-tight mb-6">
-            Bless us, dear ones
-          </p>
-          <p className="font-serif-elegant italic text-lg md:text-2xl text-maroon/80 leading-relaxed">
-            “May the lamp of love that we light together this day burn ever brighter,
-            warmed by the prayers of those who have walked beside us.”
-          </p>
-          <p className="mt-8 font-display text-xs uppercase tracking-[0.3em] text-gold-deep">
-            — The Sharma & Mehra Families
-          </p>
-          <GoldDivider />
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <Heart className="w-8 h-8 text-vermilion mx-auto mb-4" />
+            <SectionLabel>With Your Blessings</SectionLabel>
+            <SectionTitle>Bless Us, Dear Ones</SectionTitle>
+            <p className="font-serif-elegant italic text-lg md:text-xl text-maroon/75 leading-relaxed mt-5 max-w-2xl mx-auto">
+              Your prayers light our path. Leave a blessing that we will carry with us
+              into our new beginning.
+            </p>
+            <GoldDivider />
+          </div>
+          <BlessingsWall />
         </div>
       </section>
 
