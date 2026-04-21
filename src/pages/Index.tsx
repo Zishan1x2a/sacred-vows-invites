@@ -229,8 +229,22 @@ const Index = () => {
         </div>
       </section>
 
+      {/* ============ COUNTDOWN (moved up) ============ */}
+      <section className="relative px-5 py-20 md:py-28 paper-surface">
+        <div className="max-w-3xl mx-auto text-center">
+          <GaneshMark size={70} />
+          <SectionLabel>The Sacred Day Approaches</SectionLabel>
+          <SectionTitle>Counting the Moments</SectionTitle>
+          <p className="font-serif-elegant italic text-maroon/70 mt-4 mb-10">
+            Until the wedding muhurat in {destination}
+          </p>
+          <Countdown target={weddingDate} />
+          <GoldDivider />
+        </div>
+      </section>
+
       {/* ============ 4. FAMILY & MEMORIES ============ */}
-      <section className="relative px-5 py-24 md:py-32 paper-surface">
+      <section className="relative px-5 py-24 md:py-32 bg-gradient-to-b from-ivory to-sandal/30">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
             <SectionLabel>Our Beloved Families</SectionLabel>
