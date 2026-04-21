@@ -229,8 +229,22 @@ const Index = () => {
         </div>
       </section>
 
+      {/* ============ COUNTDOWN (moved up) ============ */}
+      <section className="relative px-5 py-20 md:py-28 paper-surface">
+        <div className="max-w-3xl mx-auto text-center">
+          <GaneshMark size={70} />
+          <SectionLabel>The Sacred Day Approaches</SectionLabel>
+          <SectionTitle>Counting the Moments</SectionTitle>
+          <p className="font-serif-elegant italic text-maroon/70 mt-4 mb-10">
+            Until the wedding muhurat in {destination}
+          </p>
+          <Countdown target={weddingDate} />
+          <GoldDivider />
+        </div>
+      </section>
+
       {/* ============ 4. FAMILY & MEMORIES ============ */}
-      <section className="relative px-5 py-24 md:py-32 paper-surface">
+      <section className="relative px-5 py-24 md:py-32 bg-gradient-to-b from-ivory to-sandal/30">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
             <SectionLabel>Our Beloved Families</SectionLabel>
@@ -281,27 +295,20 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ============ 6. COUNTDOWN + GUEST ACTION ============ */}
+      {/* ============ 6. GUEST ACTION ============ */}
       <section className="relative px-5 py-24 md:py-32 paper-surface">
         <div className="max-w-3xl mx-auto text-center">
           <GaneshMark size={70} />
-          <SectionLabel>The Sacred Day Approaches</SectionLabel>
-          <SectionTitle>Counting the Moments</SectionTitle>
-          <p className="font-serif-elegant italic text-maroon/70 mt-4 mb-10">
-            Until the wedding muhurat in {destination}
+          <SectionLabel>Your Presence, Our Blessing</SectionLabel>
+          <SectionTitle>Accept the Invitation</SectionTitle>
+          <GoldDivider />
+          <p className="font-display text-xs uppercase tracking-[0.3em] text-gold-deep mb-3 mt-2">
+            Dear {guestName}
           </p>
-
-          <Countdown target={weddingDate} />
-
-          <div className="mt-16">
-            <p className="font-display text-xs uppercase tracking-[0.3em] text-gold-deep mb-3">
-              Dear {guestName}
-            </p>
-            <p className="font-serif-elegant text-lg md:text-xl text-maroon-deep mb-8 max-w-lg mx-auto">
-              Your presence will be the most cherished blessing of our journey.
-            </p>
-            <RsvpAccept guestName={guestName} />
-          </div>
+          <p className="font-serif-elegant text-lg md:text-xl text-maroon-deep mb-8 max-w-lg mx-auto">
+            Your presence will be the most cherished blessing of our journey.
+          </p>
+          <RsvpAccept guestName={guestName} />
         </div>
       </section>
 
