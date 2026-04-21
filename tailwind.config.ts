@@ -63,23 +63,29 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      fontFamily: {
+        display: ['Cinzel', 'serif'],
+        serif: ['Cormorant Garamond', 'serif'],
+        script: ['Tangerine', 'cursive'],
+      },
+      colors: {
+        ivory: 'hsl(var(--ivory))',
+        sandal: 'hsl(var(--sandal))',
+        gold: {
+          DEFAULT: 'hsl(var(--gold))',
+          soft: 'hsl(var(--gold-soft))',
+          deep: 'hsl(var(--gold-deep))',
+        },
+        vermilion: 'hsl(var(--vermilion))',
+        maroon: {
+          DEFAULT: 'hsl(var(--maroon))',
+          deep: 'hsl(var(--maroon-deep))',
+        },
+        kesar: 'hsl(var(--kesar))',
+      },
       keyframes: {
-        "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
-        },
-        "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
-        },
+        "accordion-down": { from: { height: "0" }, to: { height: "var(--radix-accordion-content-height)" } },
+        "accordion-up": { from: { height: "var(--radix-accordion-content-height)" }, to: { height: "0" } },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
