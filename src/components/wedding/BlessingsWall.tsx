@@ -5,31 +5,27 @@ import { toast } from "sonner";
 
 type Blessing = {
   id: string;
-  name: string;
   message: string;
   at: number;
 };
 
-const STORAGE_KEY = "wedding_blessings_v1";
+const STORAGE_KEY = "wedding_blessings_v2";
 
 const seedBlessings: Blessing[] = [
   {
     id: "seed-1",
-    name: "Kaveri Aunty",
     message:
       "May Lord Ganesha shower you both with endless joy, prosperity, and a love that deepens with every sunrise.",
     at: Date.now() - 1000 * 60 * 60 * 24 * 3,
   },
   {
     id: "seed-2",
-    name: "Vivaan & Anaya",
     message:
       "Wishing you a marriage filled with laughter, sacred bonds, and countless beautiful memories. Bahut bahut badhai!",
     at: Date.now() - 1000 * 60 * 60 * 24,
   },
   {
     id: "seed-3",
-    name: "The Kapoor Family",
     message:
       "Two beautiful souls beginning a sacred journey — may every step be blessed.",
     at: Date.now() - 1000 * 60 * 30,
@@ -37,11 +33,6 @@ const seedBlessings: Blessing[] = [
 ];
 
 const blessingSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .nonempty({ message: "Apna naam likhein" })
-    .max(60, { message: "Naam 60 characters tak rakhein" }),
   message: z
     .string()
     .trim()
@@ -63,7 +54,6 @@ const formatWhen = (ts: number) => {
 
 export const BlessingsWall = () => {
   const [blessings, setBlessings] = useState<Blessing[]>([]);
-  const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -92,7 +82,7 @@ export const BlessingsWall = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const result = blessingSchema.safeParse({ name, message });
+    const result = blessingSchema.safeParse({ message });
     if (!result.success) {
       toast.error(result.error.issues[0].message);
       return;
@@ -100,13 +90,11 @@ export const BlessingsWall = () => {
     setSubmitting(true);
     const next: Blessing = {
       id: `b-${Date.now()}`,
-      name: result.data.name,
       message: result.data.message,
       at: Date.now(),
     };
     const list = [next, ...blessings].slice(0, 100);
     persist(list);
-    setName("");
     setMessage("");
     toast.success("Aapka ashirvaad mil gaya 🙏");
     setTimeout(() => setSubmitting(false), 400);
@@ -123,23 +111,6 @@ export const BlessingsWall = () => {
           Leave Your Blessing
         </p>
         <div className="space-y-4">
-          <div>
-            <label
-              htmlFor="b-name"
-              className="font-display text-[0.65rem] uppercase tracking-[0.25em] text-maroon/70 block mb-2"
-            >
-              Your Name
-            </label>
-            <input
-              id="b-name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              maxLength={60}
-              placeholder="e.g. Sharma Family"
-              className="w-full bg-ivory/60 border border-gold/40 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/20 rounded-sm px-4 py-3 font-serif-elegant text-maroon-deep placeholder:text-maroon/30"
-            />
-          </div>
           <div>
             <label
               htmlFor="b-msg"
@@ -182,10 +153,7 @@ export const BlessingsWall = () => {
               “{b.message}”
             </p>
             <div className="gold-divider !my-4" />
-            <div className="flex items-baseline justify-between gap-3">
-              <p className="font-display text-sm md:text-base text-maroon-deep tracking-wide">
-                — {b.name}
-              </p>
+            <div className="flex items-center justify-end">
               <span className="font-display text-[0.6rem] uppercase tracking-[0.25em] text-gold-deep/80">
                 {formatWhen(b.at)}
               </span>
