@@ -1,4 +1,5 @@
 import { Phone, MessageCircle, Plane, Hotel, Heart } from "lucide-react";
+import { useEffect, useState, type CSSProperties } from "react";
 import heroBg from "@/assets/hero-bg.jpg";
 import arch from "@/assets/arch.png";
 import couple1 from "@/assets/couple-1.jpg";
@@ -129,13 +130,91 @@ const gallery = [
   { src: couple3, alt: "Intricate bridal mehendi" },
   { src: couple4, alt: "Festive sangeet evening" },
   { src: couple6, alt: "An elegant reception portrait" },
+  { src: couple1, alt: "A timeless candid of the couple" },
 ];
 
 const Index = () => {
+  const [showShlokIntro, setShowShlokIntro] = useState(true);
+  const [currentStep, setCurrentStep] = useState(0);
+  const totalSteps = 11;
+  const openingShlokaLines = [
+    "ॐ श्री गणेशाय नमः",
+    "वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ ।",
+    "निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥",
+  ];
+  const introMotes = Array.from({ length: 18 }, (_, index) => ({
+    left: ((index * 19) % 100) + 0.5,
+    delay: (index % 6) * 0.6,
+    duration: 4.2 + (index % 5) * 0.7,
+  }));
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setShowShlokIntro(false);
+    }, 7600);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentStep]);
+
+  const stepTitleByIndex = [
+    "Sacred Welcome",
+    "Invitation Reveal",
+    "Celebration Journey",
+    "Our Families",
+    "Memories Gallery",
+    "Accept the Invitation",
+    "Blessings Wall",
+    "Stay & Travel",
+    "Countdown",
+    "Contact Cards",
+    "Closing Note",
+  ];
+
+  if (showShlokIntro) {
+    return (
+      <section className="shlok-intro-screen" aria-label="Opening shlok animation">
+        <div className="shlok-intro-ambient" aria-hidden="true">
+          {introMotes.map((mote, index) => (
+            <span
+              key={`mote-${index}`}
+              className="shlok-intro-mote"
+              style={
+                {
+                  left: `${mote.left}%`,
+                  animationDelay: `${mote.delay}s`,
+                  animationDuration: `${mote.duration}s`,
+                } as CSSProperties
+              }
+            />
+          ))}
+        </div>
+        <div className="shlok-intro-sheet">
+          <p className="shlok-intro-label">Sacred Invocation</p>
+          <div className="shlok-intro-lines">
+            {openingShlokaLines.map((line, index) => (
+              <p
+                key={line}
+                className="shlok-intro-line"
+                style={{ ["--line-delay" as string]: `${0.9 + index * 1.85}s` } as CSSProperties}
+              >
+                <span>{line}</span>
+              </p>
+            ))}
+          </div>
+          <p className="shlok-intro-mantra">शुभारम्भ</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <main className="min-h-screen overflow-x-hidden">
+    <main className="min-h-screen overflow-hidden">
       {/* ============ 1. SACRED WELCOME ============ */}
-      <section className="relative min-h-screen flex items-center justify-center px-5 py-16 overflow-hidden">
+      {currentStep === 0 && (
+      <section className="step-screen relative min-h-screen flex items-center justify-center px-5 py-16 overflow-hidden premium-glow">
         <div
           className="absolute inset-0 opacity-40"
           style={{
@@ -147,7 +226,7 @@ const Index = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-ivory/70 via-ivory/50 to-ivory" aria-hidden="true" />
 
-        <div className="relative z-10 text-center max-w-2xl mx-auto">
+        <div className="step-surface relative z-10 text-center max-w-2xl mx-auto">
           <div className="seal-reveal">
             <GaneshMark size={160} className="md:!w-[200px] md:!h-[200px]" />
           </div>
@@ -174,15 +253,19 @@ const Index = () => {
             </p>
 
             <div className="mt-10">
-              <a href="#invitation" className="btn-royal">Open Invitation</a>
+              <button type="button" onClick={() => setCurrentStep(1)} className="btn-royal btn-open-invitation">
+                Open Invitation
+              </button>
             </div>
           </div>
         </div>
       </section>
+      )}
 
       {/* ============ 2. INVITATION REVEAL ============ */}
-      <section id="invitation" className="relative px-5 py-24 md:py-32 paper-surface">
-        <div className="max-w-3xl mx-auto text-center relative">
+      {currentStep === 1 && (
+      <section id="invitation" className="step-screen relative px-5 py-24 md:py-32 paper-surface premium-glow">
+        <div className="step-surface max-w-3xl mx-auto text-center relative">
           <img
             src={arch}
             alt=""
@@ -229,11 +312,13 @@ const Index = () => {
           </div>
         </div>
       </section>
+      )}
 
       {/* ============ 3. CELEBRATION JOURNEY ============ */}
-      <section className="relative px-5 py-24 md:py-32 bg-gradient-to-b from-ivory to-sandal/40">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14">
+      {currentStep === 2 && (
+      <section className="step-screen relative px-5 py-24 md:py-32 bg-gradient-to-b from-ivory to-sandal/40 premium-glow">
+        <div className="step-surface max-w-6xl mx-auto">
+          <div className="step-heading text-center mb-14">
             <SectionLabel>Six Sacred Chapters</SectionLabel>
             <SectionTitle>Celebration Journey</SectionTitle>
             <p className="font-serif-elegant italic text-maroon/70 mt-4 max-w-xl mx-auto">
@@ -249,25 +334,13 @@ const Index = () => {
           </div>
         </div>
       </section>
-
-      {/* ============ COUNTDOWN (moved up) ============ */}
-      <section className="relative px-5 py-20 md:py-28 paper-surface">
-        <div className="max-w-3xl mx-auto text-center">
-          <GaneshMark size={70} />
-          <SectionLabel>The Sacred Day Approaches</SectionLabel>
-          <SectionTitle>Counting the Moments</SectionTitle>
-          <p className="font-serif-elegant italic text-maroon/70 mt-4 mb-10">
-            Until the wedding muhurat in {destination}
-          </p>
-          <Countdown target={weddingDate} />
-          <GoldDivider />
-        </div>
-      </section>
+      )}
 
       {/* ============ 4a. OUR FAMILIES (Bride & Groom Members) ============ */}
-      <section className="relative px-5 py-24 md:py-32 bg-gradient-to-b from-ivory to-sandal/30">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14">
+      {currentStep === 3 && (
+      <section className="step-screen relative px-5 py-24 md:py-32 bg-gradient-to-b from-ivory to-sandal/30 premium-glow">
+        <div className="step-surface max-w-6xl mx-auto">
+          <div className="step-heading text-center mb-14">
             <GaneshMark size={64} />
             <SectionLabel>Our Families</SectionLabel>
             <SectionTitle>The Hearts Behind This Union</SectionTitle>
@@ -279,7 +352,7 @@ const Index = () => {
 
           <div className="grid md:grid-cols-2 gap-6 md:gap-10">
             {/* Bride Side */}
-            <div className="ornate-border paper-surface p-7 md:p-10 relative">
+            <div className="luxury-card ornate-border paper-surface p-7 md:p-10 relative">
               <span className="absolute top-4 right-5 text-gold text-xl float-slow" aria-hidden="true">❋</span>
               <p className="font-display text-[0.65rem] uppercase tracking-[0.35em] text-gold-deep text-center mb-2">
                 Bride’s Family
@@ -304,7 +377,7 @@ const Index = () => {
             </div>
 
             {/* Groom Side */}
-            <div className="ornate-border paper-surface p-7 md:p-10 relative">
+            <div className="luxury-card ornate-border paper-surface p-7 md:p-10 relative">
               <span className="absolute top-4 right-5 text-gold text-xl float-slow" aria-hidden="true">❋</span>
               <p className="font-display text-[0.65rem] uppercase tracking-[0.35em] text-gold-deep text-center mb-2">
                 Groom’s Family
@@ -330,11 +403,13 @@ const Index = () => {
           </div>
         </div>
       </section>
+      )}
 
       {/* ============ 4b. MEMORIES GALLERY ============ */}
-      <section className="relative px-5 py-24 md:py-32 bg-gradient-to-b from-sandal/30 to-ivory">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14">
+      {currentStep === 4 && (
+      <section className="step-screen relative px-5 py-24 md:py-32 bg-gradient-to-b from-sandal/30 to-ivory premium-glow">
+        <div className="step-surface max-w-6xl mx-auto">
+          <div className="step-heading text-center mb-14">
             <SectionLabel>Cherished Memories</SectionLabel>
             <SectionTitle>Moments That Led Us Here</SectionTitle>
             <p className="font-serif-elegant italic text-maroon/70 mt-6 max-w-xl mx-auto text-lg">
@@ -363,27 +438,12 @@ const Index = () => {
           </div>
         </div>
       </section>
-
-      {/* ============ 5. BLESSINGS WALL ============ */}
-      <section className="relative px-5 py-24 md:py-32 bg-gradient-to-b from-sandal/40 to-ivory">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <Heart className="w-8 h-8 text-vermilion mx-auto mb-4" />
-            <SectionLabel>With Your Blessings</SectionLabel>
-            <SectionTitle>Bless Us, Dear Ones</SectionTitle>
-            <p className="font-serif-elegant italic text-lg md:text-xl text-maroon/75 leading-relaxed mt-5 max-w-2xl mx-auto">
-              Your prayers light our path. Leave a blessing that we will carry with us
-              into our new beginning.
-            </p>
-            <GoldDivider />
-          </div>
-          <BlessingsWall />
-        </div>
-      </section>
+      )}
 
       {/* ============ 6. GUEST ACTION ============ */}
-      <section className="relative px-5 py-24 md:py-32 paper-surface">
-        <div className="max-w-3xl mx-auto text-center">
+      {currentStep === 5 && (
+      <section className="step-screen relative px-5 py-24 md:py-32 paper-surface premium-glow">
+        <div className="step-surface max-w-3xl mx-auto text-center">
           <GaneshMark size={70} />
           <SectionLabel>Your Presence, Our Blessing</SectionLabel>
           <SectionTitle>Accept the Invitation</SectionTitle>
@@ -397,17 +457,38 @@ const Index = () => {
           <RsvpAccept guestName={guestName} />
         </div>
       </section>
+      )}
+
+      {/* ============ 5. BLESSINGS WALL ============ */}
+      {currentStep === 6 && (
+      <section className="step-screen relative px-5 py-24 md:py-32 bg-gradient-to-b from-sandal/40 to-ivory premium-glow">
+        <div className="step-surface max-w-5xl mx-auto">
+          <div className="step-heading text-center mb-12">
+            <Heart className="w-8 h-8 text-vermilion mx-auto mb-4" />
+            <SectionLabel>With Your Blessings</SectionLabel>
+            <SectionTitle>Bless Us, Dear Ones</SectionTitle>
+            <p className="font-serif-elegant italic text-lg md:text-xl text-maroon/75 leading-relaxed mt-5 max-w-2xl mx-auto">
+              Your prayers light our path. Leave a blessing that we will carry with us
+              into our new beginning.
+            </p>
+            <GoldDivider />
+          </div>
+          <BlessingsWall />
+        </div>
+      </section>
+      )}
 
       {/* ============ 7. TRAVEL HELP ============ */}
-      <section className="relative px-5 py-24 bg-gradient-to-b from-ivory to-sandal/40">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
+      {currentStep === 7 && (
+      <section className="step-screen relative px-5 py-24 bg-gradient-to-b from-ivory to-sandal/40 premium-glow">
+        <div className="step-surface max-w-5xl mx-auto">
+          <div className="step-heading text-center mb-12">
             <SectionLabel>Destination Guidance</SectionLabel>
             <SectionTitle>Stay & Travel</SectionTitle>
             <GoldDivider />
           </div>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="paper-surface ornate-border p-7 md:p-9">
+            <div className="luxury-card paper-surface ornate-border p-7 md:p-9">
               <Plane className="w-7 h-7 text-gold-deep mb-4" />
               <h3 className="font-display text-xl text-maroon-deep mb-3">Reaching Udaipur</h3>
               <p className="font-serif-elegant text-maroon/85 leading-relaxed">
@@ -416,7 +497,7 @@ const Index = () => {
                 on request.
               </p>
             </div>
-            <div className="paper-surface ornate-border p-7 md:p-9">
+            <div className="luxury-card paper-surface ornate-border p-7 md:p-9">
               <Hotel className="w-7 h-7 text-gold-deep mb-4" />
               <h3 className="font-display text-xl text-maroon-deep mb-3">Where to Stay</h3>
               <p className="font-serif-elegant text-maroon/85 leading-relaxed">
@@ -428,11 +509,29 @@ const Index = () => {
           </div>
         </div>
       </section>
+      )}
+
+      {/* ============ COUNTDOWN ============ */}
+      {currentStep === 8 && (
+      <section className="step-screen relative px-5 py-20 md:py-28 paper-surface premium-glow">
+        <div className="step-surface max-w-3xl mx-auto text-center">
+          <GaneshMark size={70} />
+          <SectionLabel>The Sacred Day Approaches</SectionLabel>
+          <SectionTitle>Counting the Moments</SectionTitle>
+          <p className="font-serif-elegant italic text-maroon/70 mt-4 mb-10">
+            Until the wedding muhurat in {destination}
+          </p>
+          <Countdown target={weddingDate} />
+          <GoldDivider />
+        </div>
+      </section>
+      )}
 
       {/* ============ 8. CONTACT CARDS ============ */}
-      <section className="relative px-5 py-24 paper-surface">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
+      {currentStep === 9 && (
+      <section className="step-screen relative px-5 py-24 paper-surface premium-glow">
+        <div className="step-surface max-w-5xl mx-auto">
+          <div className="step-heading text-center mb-12">
             <SectionLabel>For Any Assistance</SectionLabel>
             <SectionTitle>A Loving Hand, Always</SectionTitle>
             <GoldDivider />
@@ -443,7 +542,7 @@ const Index = () => {
               { side: "Groom’s Side", name: "Aditya Mehra (Cousin)", phone: "+91 98200 67890" },
               { side: "Wedding Coordinator", name: "Saheli Events", phone: "+91 90000 11122" },
             ].map((c) => (
-              <div key={c.name} className="ornate-border bg-ivory/70 p-6 text-center">
+              <div key={c.name} className="luxury-card ornate-border bg-ivory/70 p-6 text-center">
                 <p className="font-display text-[0.65rem] uppercase tracking-[0.3em] text-gold-deep mb-3">
                   {c.side}
                 </p>
@@ -467,10 +566,12 @@ const Index = () => {
           </div>
         </div>
       </section>
+      )}
 
       {/* ============ 9. CLOSING NOTE ============ */}
-      <footer className="relative px-5 py-24 md:py-32 bg-gradient-to-b from-sandal/40 to-maroon-deep text-center overflow-hidden">
-        <div className="relative max-w-2xl mx-auto">
+      {currentStep === 10 && (
+      <footer className="step-screen relative px-5 py-24 md:py-32 bg-gradient-to-b from-sandal/40 to-maroon-deep text-center overflow-hidden premium-glow">
+        <div className="step-surface relative max-w-2xl mx-auto">
           <GaneshMark size={70} className="opacity-80" />
           <p className="font-script text-4xl md:text-6xl text-ivory mt-4 mb-4">
             Dhanyavaad
@@ -486,6 +587,38 @@ const Index = () => {
           </p>
         </div>
       </footer>
+      )}
+
+      <div className="fixed bottom-4 left-1/2 z-50 w-[min(92vw,760px)] -translate-x-1/2 rounded-2xl border border-gold/30 bg-ivory/90 backdrop-blur px-4 py-3 shadow-lg">
+        <div className="flex items-center justify-between gap-3">
+          <button
+            type="button"
+            onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}
+            disabled={currentStep === 0}
+            className="btn-ghost-gold !px-4 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Back
+          </button>
+
+          <div className="text-center min-w-0">
+            <p className="font-display text-[0.6rem] md:text-[0.65rem] uppercase tracking-[0.3em] text-gold-deep">
+              Step {currentStep + 1} of {totalSteps}
+            </p>
+            <p className="font-serif-elegant italic text-maroon-deep text-sm md:text-base truncate">
+              {stepTitleByIndex[currentStep]}
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setCurrentStep((prev) => Math.min(prev + 1, totalSteps - 1))}
+            disabled={currentStep === totalSteps - 1}
+            className="btn-royal !px-4 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Next
+          </button>
+        </div>
+      </div>
     </main>
   );
 };

@@ -141,25 +141,29 @@ export const BlessingsWall = () => {
       </form>
 
       {/* Wall */}
-      <div className="grid sm:grid-cols-2 gap-4 md:gap-5 max-w-4xl mx-auto">
-        {blessings.map((b, i) => (
-          <article
-            key={b.id}
-            className="ornate-border bg-ivory/70 p-5 md:p-6 relative fade-up"
-            style={{ animationDelay: `${Math.min(i, 6) * 0.05}s` }}
-          >
-            <Heart className="w-4 h-4 text-vermilion absolute top-4 right-4 opacity-70" aria-hidden="true" />
-            <p className="font-serif-elegant italic text-maroon-deep/90 leading-relaxed text-base md:text-[1.05rem]">
-              “{b.message}”
-            </p>
-            <div className="gold-divider !my-4" />
-            <div className="flex items-center justify-end">
-              <span className="font-display text-[0.6rem] uppercase tracking-[0.25em] text-gold-deep/80">
-                {formatWhen(b.at)}
-              </span>
-            </div>
-          </article>
-        ))}
+      <div className="max-w-4xl mx-auto">
+        <div className="max-h-[58vh] overflow-y-auto pr-1 md:pr-2">
+          <div className="grid sm:grid-cols-2 gap-4 md:gap-5">
+            {blessings.map((b, i) => (
+              <article
+                key={b.id}
+                className="ornate-border bg-ivory/70 p-5 md:p-6 relative fade-up"
+                style={{ animationDelay: `${Math.min(i, 6) * 0.05}s` }}
+              >
+                <Heart className="w-4 h-4 text-vermilion absolute top-4 right-4 opacity-70" aria-hidden="true" />
+                <p className="font-serif-elegant italic text-maroon-deep/90 leading-relaxed text-base md:text-[1.05rem]">
+                  “{b.message}”
+                </p>
+                <div className="gold-divider !my-4" />
+                <div className="flex items-center justify-end">
+                  <span className="font-display text-[0.6rem] uppercase tracking-[0.25em] text-gold-deep/80">
+                    {formatWhen(b.at)}
+                  </span>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

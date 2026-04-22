@@ -149,6 +149,26 @@
     transform: translateX(-100%); transition: transform 0.8s;
   }
   .btn-royal:hover::after { transform: translateX(100%); }
+  .btn-open-invitation {
+    animation: invitePulse 2.4s ease-in-out infinite;
+  }
+  .btn-open-invitation::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    border: 1px solid hsl(var(--gold) / 0.75);
+    box-shadow: 0 0 22px hsl(var(--gold) / 0.42), 0 0 48px hsl(var(--vermilion) / 0.2);
+    opacity: 0.7;
+    animation: inviteRing 2.2s ease-out infinite;
+    pointer-events: none;
+  }
+  .btn-open-invitation:hover {
+    transform: translateY(-3px) scale(1.03);
+  }
+  .btn-open-invitation:active {
+    transform: translateY(-1px) scale(0.985);
+  }
 
   .btn-ghost-gold {
     @apply inline-flex items-center justify-center gap-2 px-5 py-2 font-display text-xs uppercase tracking-[0.18em];
@@ -168,6 +188,28 @@
   .fade-in { animation: fadeIn 1.2s ease-out both; }
   .seal-reveal { animation: sealReveal 1.6s var(--transition-royal) both; }
   .float-slow { animation: floatSlow 6s ease-in-out infinite; }
+  .step-screen { animation: stepReveal 850ms var(--transition-royal) both; }
+  .step-surface { animation: surfaceLift 950ms var(--transition-royal) both; }
+  .step-heading { animation: headingBloom 900ms var(--transition-royal) both; }
+  .luxury-card {
+    transition: transform 0.6s var(--transition-royal), box-shadow 0.6s var(--transition-royal), border-color 0.6s var(--transition-royal);
+    will-change: transform;
+  }
+  .luxury-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: var(--shadow-royal), inset 0 0 0 1px hsl(var(--gold) / 0.45);
+    border-color: hsl(var(--gold) / 0.7);
+  }
+  .premium-glow::before {
+    content: "";
+    position: absolute;
+    inset: -20% -10% auto -10%;
+    height: 45%;
+    background: radial-gradient(circle, hsl(var(--gold) / 0.24), transparent 70%);
+    filter: blur(20px);
+    opacity: 0.55;
+    pointer-events: none;
+  }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(30px); }
@@ -185,12 +227,211 @@
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
   }
+  @keyframes stepReveal {
+    from { opacity: 0; transform: translateY(22px) scale(0.985); filter: blur(6px); }
+    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  }
+  @keyframes surfaceLift {
+    from { opacity: 0; transform: perspective(1200px) rotateX(4deg) translateY(20px); }
+    to { opacity: 1; transform: perspective(1200px) rotateX(0deg) translateY(0); }
+  }
+  @keyframes headingBloom {
+    from { opacity: 0; letter-spacing: 0.18em; transform: translateY(14px); }
+    to { opacity: 1; letter-spacing: 0.08em; transform: translateY(0); }
+  }
+  @keyframes invitePulse {
+    0%, 100% { box-shadow: var(--shadow-soft), inset 0 0 0 1px hsl(var(--gold) / 0.3), 0 0 0 0 hsl(var(--gold) / 0.25); }
+    50% { box-shadow: var(--shadow-royal), inset 0 0 0 1px hsl(var(--gold) / 0.7), 0 0 0 10px hsl(var(--gold) / 0); }
+  }
+  @keyframes inviteRing {
+    0% { opacity: 0.8; transform: scale(0.98); }
+    60% { opacity: 0.25; transform: scale(1.06); }
+    100% { opacity: 0; transform: scale(1.12); }
+  }
   @keyframes petals {
     0% { opacity: 0; transform: translateY(-20px) rotate(0); }
     50% { opacity: 1; }
     100% { opacity: 0; transform: translateY(80px) rotate(180deg); }
   }
   .petal { animation: petals 3s ease-out forwards; }
+  .shlok-intro-screen {
+    position: relative;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 1.25rem;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 18% 18%, hsl(var(--gold) / 0.24), transparent 34%),
+      radial-gradient(circle at 84% 78%, hsl(var(--maroon) / 0.24), transparent 46%),
+      linear-gradient(160deg, #1f1712 0%, #3a291d 50%, #2a1d15 100%);
+    animation: shlokBgShift 7s ease-in-out infinite alternate;
+  }
+  .shlok-intro-screen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(
+        0deg,
+        transparent 0 48px,
+        hsl(var(--gold) / 0.06) 48px 49px
+      ),
+      radial-gradient(circle at 30% 25%, hsl(var(--gold) / 0.18), transparent 48%);
+    opacity: 0.42;
+    pointer-events: none;
+  }
+  .shlok-intro-ambient {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .shlok-intro-mote {
+    position: absolute;
+    top: -8%;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: radial-gradient(circle, hsl(var(--gold-soft)), hsl(var(--gold-deep)));
+    opacity: 0;
+    filter: blur(0.3px) drop-shadow(0 0 8px hsl(var(--gold) / 0.55));
+    animation-name: shlokMoteFall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  .shlok-intro-sheet {
+    position: relative;
+    z-index: 1;
+    width: min(92vw, 920px);
+    padding: clamp(1.2rem, 2.2vw, 2rem);
+    border-radius: 14px;
+    border: 1px solid hsl(var(--gold) / 0.38);
+    background:
+      linear-gradient(180deg, hsl(30 22% 22% / 0.96), hsl(24 28% 18% / 0.97)),
+      repeating-linear-gradient(
+        0deg,
+        transparent 0 56px,
+        hsl(var(--gold) / 0.14) 56px 58px
+      );
+    box-shadow:
+      0 26px 70px hsl(0 0% 0% / 0.52),
+      inset 0 0 0 1px hsl(var(--gold) / 0.28),
+      inset 0 0 52px hsl(var(--gold) / 0.09);
+    animation: sheetRise 1s var(--transition-royal) both;
+  }
+  .shlok-intro-label {
+    margin: 0;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.62rem, 1vw, 0.76rem);
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: hsl(var(--gold-soft));
+    opacity: 0;
+    animation: fadeIn 0.9s ease-out 0.2s forwards;
+  }
+  .shlok-intro-lines {
+    margin-top: 1.1rem;
+    display: grid;
+    gap: 0.7rem;
+  }
+  .shlok-intro-line {
+    position: relative;
+    margin: 0;
+    opacity: 0;
+    overflow: hidden;
+    animation: lineRevealFade 130ms linear var(--line-delay) forwards;
+  }
+  .shlok-intro-line::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 56%;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: radial-gradient(circle, hsl(var(--gold-soft)), hsl(var(--gold-deep)) 62%, transparent 72%);
+    filter: drop-shadow(0 0 9px hsl(var(--gold) / 0.52));
+    transform: translateY(-50%);
+    opacity: 0;
+    animation: penNibGlide 1.58s linear var(--line-delay) forwards;
+  }
+  .shlok-intro-line::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 58%;
+    width: 0;
+    height: 2px;
+    transform: translateY(-50%);
+    background: linear-gradient(90deg, hsl(var(--gold-soft) / 0.75), hsl(var(--gold) / 0.08));
+    opacity: 0;
+    box-shadow: 0 0 8px hsl(var(--gold) / 0.32);
+    animation: inkTrailSweep 1.58s linear var(--line-delay) forwards;
+  }
+  .shlok-intro-line span {
+    display: inline-block;
+    width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.35rem, 2.9vw, 2.55rem);
+    line-height: 1.52;
+    letter-spacing: 0.03em;
+    color: hsl(var(--gold-soft));
+    text-shadow:
+      0 0 2px hsl(var(--gold-soft) / 0.45),
+      0 0 10px hsl(var(--gold) / 0.25);
+    animation:
+      penWrite 1.58s steps(46, end) var(--line-delay) forwards,
+      inkFlicker 1.58s ease-out var(--line-delay) forwards;
+  }
+  .shlok-intro-mantra {
+    margin: 1rem 0 0;
+    text-align: center;
+    font-family: 'Tangerine', cursive;
+    font-size: clamp(2rem, 4vw, 3.1rem);
+    color: hsl(var(--gold-soft) / 0.95);
+    opacity: 0;
+    letter-spacing: 0.05em;
+    animation: fadeUp 1s var(--transition-royal) 6.4s forwards;
+  }
+  @keyframes lineRevealFade {
+    to { opacity: 1; }
+  }
+  @keyframes penWrite {
+    to { width: 100%; }
+  }
+  @keyframes penNibGlide {
+    0% { opacity: 0; transform: translateY(-50%) translateX(0) scale(0.8); }
+    10% { opacity: 1; }
+    90% { opacity: 1; transform: translateY(-50%) translateX(calc(min(84vw, 820px) * 0.78)) scale(1); }
+    100% { opacity: 0; transform: translateY(-50%) translateX(calc(min(84vw, 820px) * 0.83)) scale(0.75); }
+  }
+  @keyframes inkTrailSweep {
+    0% { width: 0; opacity: 0; }
+    12% { opacity: 0.62; }
+    100% { width: 100%; opacity: 0; }
+  }
+  @keyframes inkFlicker {
+    0% { filter: blur(0.2px); }
+    45% { filter: blur(0); }
+    100% { filter: blur(0); }
+  }
+  @keyframes shlokBgShift {
+    from { background-position: 0% 0%, 0% 0%, 0% 0%; }
+    to { background-position: 6% -8%, -7% 9%, 0% 0%; }
+  }
+  @keyframes shlokMoteFall {
+    0% { opacity: 0; transform: translateY(-8vh) scale(0.65); }
+    8% { opacity: 0.9; }
+    100% { opacity: 0; transform: translateY(108vh) scale(1); }
+  }
+  @keyframes sheetRise {
+    from { opacity: 0; transform: translateY(26px) scale(0.98); filter: blur(6px); }
+    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
