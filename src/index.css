@@ -228,12 +228,12 @@
     50% { transform: translateY(-10px); }
   }
   @keyframes stepReveal {
-    from { opacity: 0; transform: translateY(22px) scale(0.985); filter: blur(6px); }
-    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    from { opacity: 0; transform: translateY(18px) scale(0.99); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
   }
   @keyframes surfaceLift {
-    from { opacity: 0; transform: perspective(1200px) rotateX(4deg) translateY(20px); }
-    to { opacity: 1; transform: perspective(1200px) rotateX(0deg) translateY(0); }
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   @keyframes headingBloom {
     from { opacity: 0; letter-spacing: 0.18em; transform: translateY(14px); }
@@ -265,7 +265,6 @@
       radial-gradient(circle at 18% 18%, hsl(var(--gold) / 0.24), transparent 34%),
       radial-gradient(circle at 84% 78%, hsl(var(--maroon) / 0.24), transparent 46%),
       linear-gradient(160deg, #1f1712 0%, #3a291d 50%, #2a1d15 100%);
-    animation: shlokBgShift 7s ease-in-out infinite alternate;
   }
   .shlok-intro-screen::before {
     content: "";
