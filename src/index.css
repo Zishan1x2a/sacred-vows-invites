@@ -339,22 +339,74 @@
     position: relative;
     margin: 0;
     opacity: 0;
-    transform: translateY(8px);
-    will-change: opacity, transform;
-    animation: shlokLineIn 0.9s var(--transition-royal) var(--line-delay) forwards;
+    overflow: hidden;
+    will-change: opacity;
+    animation: lineRevealFade 200ms ease-out var(--line-delay) forwards;
+  }
+  .shlok-intro-line::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 56%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: radial-gradient(circle, hsl(var(--gold-soft)), hsl(var(--gold-deep)) 62%, transparent 72%);
+    box-shadow: 0 0 10px hsl(var(--gold) / 0.55);
+    transform: translate3d(0, -50%, 0) scale(0.85);
+    opacity: 0;
+    will-change: transform, opacity;
+    animation: penNibGlide 1.8s cubic-bezier(0.45, 0.05, 0.35, 1) var(--line-delay) forwards;
+  }
+  .shlok-intro-line::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 58%;
+    width: 100%;
+    height: 2px;
+    transform: translate3d(-100%, -50%, 0);
+    background: linear-gradient(90deg, hsl(var(--gold-soft) / 0.75), hsl(var(--gold) / 0.05));
+    opacity: 0;
+    box-shadow: 0 0 8px hsl(var(--gold) / 0.32);
+    will-change: transform, opacity;
+    animation: inkTrailSweep 1.8s cubic-bezier(0.45, 0.05, 0.35, 1) var(--line-delay) forwards;
   }
   .shlok-intro-line span {
     display: inline-block;
+    width: 100%;
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(0.95rem, 4.5vw, 2.5rem);
     line-height: 1.5;
     letter-spacing: 0.03em;
     color: hsl(var(--gold-soft));
-    text-shadow: 0 0 8px hsl(var(--gold) / 0.28);
+    text-shadow: 0 0 2px hsl(var(--gold-soft) / 0.45), 0 0 10px hsl(var(--gold) / 0.25);
+    -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 0%, transparent 0%);
+            mask-image: linear-gradient(90deg, #000 0%, #000 0%, transparent 0%);
+    -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+    will-change: mask-position, -webkit-mask-image;
+    animation: penWriteMask 1.8s cubic-bezier(0.45, 0.05, 0.35, 1) var(--line-delay) forwards;
   }
-  @keyframes shlokLineIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+  @keyframes lineRevealFade {
+    to { opacity: 1; }
+  }
+  @keyframes penWriteMask {
+    0%   { -webkit-mask-image: linear-gradient(90deg, #000 0%,   #000 0%,   transparent 4%);
+                   mask-image: linear-gradient(90deg, #000 0%,   #000 0%,   transparent 4%); }
+    100% { -webkit-mask-image: linear-gradient(90deg, #000 100%, #000 100%, transparent 104%);
+                   mask-image: linear-gradient(90deg, #000 100%, #000 100%, transparent 104%); }
+  }
+  @keyframes penNibGlide {
+    0%   { opacity: 0; transform: translate3d(0%, -50%, 0) scale(0.85); }
+    8%   { opacity: 1; }
+    92%  { opacity: 1; transform: translate3d(calc(100% - 14px), -50%, 0) scale(1); }
+    100% { opacity: 0; transform: translate3d(100%, -50%, 0) scale(0.8); }
+  }
+  @keyframes inkTrailSweep {
+    0%   { transform: translate3d(-100%, -50%, 0); opacity: 0; }
+    10%  { opacity: 0.6; }
+    100% { transform: translate3d(0%, -50%, 0); opacity: 0; }
   }
   .shlok-intro-mantra {
     margin: 1rem 0 0;
@@ -364,7 +416,7 @@
     color: hsl(var(--gold-soft) / 0.95);
     opacity: 0;
     letter-spacing: 0.05em;
-    animation: fadeUp 0.9s var(--transition-royal) 3.1s forwards;
+    animation: fadeUp 1s var(--transition-royal) 5.4s forwards;
   }
   @keyframes shlokBgShift {
     from { background-position: 0% 0%, 0% 0%, 0% 0%; }

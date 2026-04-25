@@ -150,7 +150,7 @@ const Index = () => {
   useEffect(() => {
     const timer = window.setTimeout(() => {
       setShowShlokIntro(false);
-    }, 4200);
+    }, 6800);
     return () => window.clearTimeout(timer);
   }, []);
 
@@ -211,7 +211,7 @@ const Index = () => {
               <p
                 key={line}
                 className="shlok-intro-line w-full text-center"
-                style={{ ["--line-delay" as string]: `${0.6 + index * 0.7}s` } as CSSProperties}
+                style={{ ["--line-delay" as string]: `${0.7 + index * 1.4}s` } as CSSProperties}
               >
                 <span className={`${index === 0 ? 'text-vermilion font-semibold drop-shadow-[0_0_8px_rgba(220,38,38,0.4)]' : 'text-gold-soft drop-shadow-[0_0_5px_rgba(212,175,55,0.3)]'}`}>
                   {line}
@@ -220,7 +220,7 @@ const Index = () => {
             ))}
           </div>
           
-          <div className="mt-10 mb-2 w-full max-w-[200px] mx-auto opacity-0 animate-[fadeIn_0.8s_ease-out_2.8s_forwards]">
+          <div className="mt-10 mb-2 w-full max-w-[200px] mx-auto opacity-0 animate-[fadeIn_1s_ease-out_5s_forwards]">
              <GoldDivider />
           </div>
           
