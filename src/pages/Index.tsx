@@ -191,20 +191,43 @@ const Index = () => {
             />
           ))}
         </div>
-        <div className="shlok-intro-sheet">
-          <p className="shlok-intro-label">Sacred Invocation</p>
-          <div className="shlok-intro-lines">
+        
+        <div className="shlok-intro-sheet relative max-w-[95%] md:max-w-4xl mx-auto flex flex-col items-center justify-center p-8 md:p-14 rounded-xl border border-gold/30 shadow-[0_0_40px_rgba(212,175,55,0.15)] bg-gradient-to-b from-[#1a0f0a]/90 to-[#2a1a10]/90 backdrop-blur-md">
+          {/* Corner Ornaments */}
+          <div className="absolute top-4 left-4 w-6 h-6 border-t-[1.5px] border-l-[1.5px] border-gold/60 md:w-10 md:h-10 md:top-6 md:left-6 transition-all duration-1000"></div>
+          <div className="absolute top-4 right-4 w-6 h-6 border-t-[1.5px] border-r-[1.5px] border-gold/60 md:w-10 md:h-10 md:top-6 md:right-6 transition-all duration-1000"></div>
+          <div className="absolute bottom-4 left-4 w-6 h-6 border-b-[1.5px] border-l-[1.5px] border-gold/60 md:w-10 md:h-10 md:bottom-6 md:left-6 transition-all duration-1000"></div>
+          <div className="absolute bottom-4 right-4 w-6 h-6 border-b-[1.5px] border-r-[1.5px] border-gold/60 md:w-10 md:h-10 md:bottom-6 md:right-6 transition-all duration-1000"></div>
+
+          <div className="mb-6 md:mb-8 opacity-0 animate-[fadeIn_1.5s_ease-out_0.2s_forwards] scale-90 md:scale-100 drop-shadow-[0_0_12px_rgba(255,215,0,0.5)]">
+             <GaneshMark size={85} />
+          </div>
+
+          <p className="shlok-intro-label text-gold-soft tracking-[0.3em] md:tracking-[0.5em] text-[0.65rem] md:text-xs mb-6 pb-3 border-b border-gold/20 inline-block px-6 md:px-12 uppercase">
+            Sacred Invocation
+          </p>
+          
+          <div className="shlok-intro-lines flex flex-col items-center space-y-5 md:space-y-7 w-full px-2 mt-4">
             {openingShlokaLines.map((line, index) => (
               <p
                 key={line}
-                className="shlok-intro-line"
+                className="shlok-intro-line w-full text-center"
                 style={{ ["--line-delay" as string]: `${0.9 + index * 1.85}s` } as CSSProperties}
               >
-                <span>{line}</span>
+                <span className={`${index === 0 ? 'text-vermilion font-semibold drop-shadow-[0_0_8px_rgba(220,38,38,0.4)]' : 'text-gold-soft drop-shadow-[0_0_5px_rgba(212,175,55,0.3)]'}`}>
+                  {line}
+                </span>
               </p>
             ))}
           </div>
-          <p className="shlok-intro-mantra">शुभारम्भ</p>
+          
+          <div className="mt-10 mb-2 w-full max-w-[200px] mx-auto opacity-0 animate-[fadeIn_1.5s_ease-out_5.8s_forwards]">
+             <GoldDivider />
+          </div>
+          
+          <p className="shlok-intro-mantra mt-4 text-3xl md:text-5xl text-gold pb-2 drop-shadow-[0_0_10px_rgba(212,175,55,0.4)]">
+            शुभारम्भ
+          </p>
         </div>
       </section>
     );
@@ -214,9 +237,10 @@ const Index = () => {
     <main className="min-h-screen overflow-hidden">
       {/* ============ 1. SACRED WELCOME ============ */}
       {currentStep === 0 && (
-      <section className="step-screen relative min-h-screen flex items-center justify-center px-5 py-16 overflow-hidden premium-glow">
+      <section className="step-screen relative min-h-screen flex items-center justify-center p-4 md:p-8 overflow-hidden bg-maroon-deep">
+        {/* Fullscreen Rich Background Layer */}
         <div
-          className="absolute inset-0 opacity-40"
+          className="absolute inset-0 opacity-40 mix-blend-overlay"
           style={{
             backgroundImage: `url(${heroBg})`,
             backgroundSize: "cover",
@@ -224,37 +248,87 @@ const Index = () => {
           }}
           aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-ivory/70 via-ivory/50 to-ivory" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#2a0808]/90 via-maroon-deep/80 to-[#1a0f0a]/90" aria-hidden="true" />
+        
+        {/* Floating Ambient Motes */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {Array.from({ length: 25 }).map((_, i) => (
+            <div 
+              key={i} 
+              className="absolute w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-gold/50 animate-[floatSlow_8s_ease-in-out_infinite] shadow-[0_0_8px_rgba(212,175,55,0.8)]" 
+              style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 5}s` }}>
+            </div>
+          ))}
+        </div>
 
-        <div className="step-surface relative z-10 text-center max-w-2xl mx-auto">
-          <div className="seal-reveal">
-            <GaneshMark size={160} className="md:!w-[200px] md:!h-[200px]" />
+        {/* Elegant Perimeter Frame */}
+        <div className="absolute inset-4 md:inset-8 border-x border-y border-gold/20 rounded-[2rem] pointer-events-none flex items-center justify-center">
+            {/* Corner Ornaments */}
+            <div className="absolute top-0 left-0 w-12 h-12 border-t border-l border-gold/50 rounded-tl-[2rem]"></div>
+            <div className="absolute top-0 right-0 w-12 h-12 border-t border-r border-gold/50 rounded-tr-[2rem]"></div>
+            <div className="absolute bottom-0 left-0 w-12 h-12 border-b border-l border-gold/50 rounded-bl-[2rem]"></div>
+            <div className="absolute bottom-0 right-0 w-12 h-12 border-b border-r border-gold/50 rounded-br-[2rem]"></div>
+        </div>
+
+        {/* Glowing Central Element */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vmin] h-[80vmin] max-w-[600px] max-h-[600px] bg-[radial-gradient(circle,hsl(var(--gold)/0.12)_0%,transparent_60%)] rounded-full pointer-events-none z-0"></div>
+
+        {/* Main Content Floating directly on the background */}
+        <div className="step-surface relative z-10 text-center w-full max-w-3xl mx-auto flex flex-col items-center select-none pt-4">
+
+          <div className="seal-reveal flex justify-center drop-shadow-[0_0_20px_rgba(212,175,55,0.5)] mb-8">
+            <div className="relative">
+               <GaneshMark size={130} className="md:!w-[160px] md:!h-[160px] opacity-90 drop-shadow-md" />
+               <div className="absolute inset-0 border border-gold/30 rounded-full animate-[inviteRing_3s_ease-out_infinite]"></div>
+            </div>
           </div>
 
-          <p className="font-script text-4xl md:text-6xl text-maroon mt-2 fade-in" style={{ animationDelay: "0.6s" }}>
-            Shree Ganeshaya Namah
+          <p className="font-script text-3xl md:text-5xl text-gold-soft mt-2 fade-in tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-bold flex items-center justify-center gap-4" style={{ animationDelay: "0.6s" }}>
+            <span className="text-gold-deep text-2xl md:text-3xl">✤</span> 
+            Shree Ganeshaya Namah 
+            <span className="text-gold-deep text-2xl md:text-3xl">✤</span>
           </p>
 
-          <div className="fade-up" style={{ animationDelay: "1s" }}>
-            <GoldDivider />
-            <p className="font-display text-[0.7rem] md:text-xs uppercase tracking-[0.4em] text-gold-deep mb-4">
+          <div className="fade-up flex flex-col items-center w-full mt-6" style={{ animationDelay: "1s" }}>
+            <div className="my-6 w-full max-w-[250px] opacity-80 filter drop-shadow-[0_0_8px_rgba(212,175,55,0.5)]">
+              <GoldDivider />
+            </div>
+            
+            <p className="font-display text-[0.65rem] md:text-xs uppercase tracking-[0.5em] md:tracking-[0.6em] text-ivory/80 mb-10 pb-2 border-b border-gold/30">
               Dear {guestName}
             </p>
-            <h1 className="font-display text-4xl md:text-7xl text-maroon-deep leading-[1.1] mb-6">
-              {couple.bride.split(" ")[0]}
-              <span className="font-script text-5xl md:text-8xl text-vermilion mx-3 align-middle">&</span>
-              {couple.groom.split(" ")[0]}
-            </h1>
-            <p className="font-serif-elegant italic text-lg md:text-xl text-maroon/80 mb-2">
-              are to be wed
+            
+            <div className="flex flex-col items-center mb-10 w-full relative">
+                <h1 className="font-display text-5xl md:text-[6.5rem] text-ivory leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)] font-normal z-10">
+                {couple.bride.split(" ")[0]}
+                </h1>
+                
+                <span className="font-script text-5xl md:text-7xl text-gold-deep my-4 z-10 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] italic">weds</span>
+                
+                <h1 className="font-display text-5xl md:text-[6.5rem] text-ivory leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)] font-normal z-10">
+                {couple.groom.split(" ")[0]}
+                </h1>
+            </div>
+            
+            <p className="font-serif-elegant italic text-lg md:text-2xl text-ivory/90 mb-4 px-4 font-medium drop-shadow-md">
+              To begin their journey of eternal love
             </p>
-            <p className="font-display text-xs md:text-sm uppercase tracking-[0.3em] text-maroon-deep">
-              {weddingDateLabel} · {destination}
-            </p>
+            
+            <div className="flex items-center gap-4 mb-4 opacity-90">
+                <span className="h-[1px] w-12 bg-gold/50"></span>
+                <p className="font-display text-[0.7rem] md:text-sm uppercase tracking-[0.3em] md:tracking-[0.4em] text-gold-soft font-semibold drop-shadow-md">
+                {weddingDateLabel} 
+                <span className="text-ivory/50 mx-4">|</span> 
+                {destination}
+                </p>
+                <span className="h-[1px] w-12 bg-gold/50"></span>
+            </div>
 
-            <div className="mt-10">
-              <button type="button" onClick={() => setCurrentStep(1)} className="btn-royal btn-open-invitation">
-                Open Invitation
+            <div className="mt-14 relative w-full flex justify-center">
+              <button type="button" onClick={() => setCurrentStep(1)} className="btn-royal btn-open-invitation group !px-12 !py-5 md:!px-16 md:!py-6 rounded-full overflow-hidden shadow-[0_0_40px_rgba(212,175,55,0.4)] border-1 border-gold/80">
+                <span className="relative z-10 flex items-center gap-3 text-[0.75rem] md:text-base font-semibold tracking-[0.35em] md:tracking-[0.45em] text-ivory uppercase">
+                  Open Invitation <span className="text-gold-deep group-hover:translate-y-1 transition-transform text-xl">▼</span>
+                </span>
               </button>
             </div>
           </div>
@@ -306,9 +380,21 @@ const Index = () => {
               </div>
             </div>
 
-            <p className="mt-12 font-script text-3xl md:text-4xl text-maroon">
+            <p className="mt-12 font-script text-3xl md:text-4xl text-maroon mb-10">
               ॐ सह नाववतु · May we be blessed together
             </p>
+
+            <div className="mt-4 pb-4">
+              <button 
+                type="button" 
+                onClick={() => setCurrentStep(2)} 
+                className="btn-royal group !px-8 !py-4 md:!px-12 md:!py-5 rounded-full overflow-hidden shadow-lg w-[85%] md:w-auto mx-auto border-gold/70"
+              >
+                <span className="relative z-10 flex items-center justify-center gap-3 text-xs md:text-sm font-semibold tracking-[0.3em] text-ivory uppercase">
+                  View Events <span className="text-gold-soft group-hover:translate-x-2 transition-transform text-lg">➔</span>
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </section>
