@@ -503,21 +503,27 @@ const Index = () => {
             <GoldDivider />
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
+          <div className="grid grid-cols-2 md:grid-cols-3 auto-rows-[1fr] gap-3 md:gap-5">
             {gallery.map((img, i) => (
               <div
                 key={i}
-                className={`group relative overflow-hidden ornate-border ${
-                  i === 0 ? "col-span-2 md:col-span-2 row-span-2 aspect-square md:aspect-[4/5]" : "aspect-square"
+                className={`gallery-tile group relative overflow-hidden ornate-border rounded-sm fade-up ${
+                  i === 0 ? "col-span-2 row-span-2 aspect-square md:aspect-auto" : "aspect-square"
                 }`}
+                style={{ animationDelay: `${i * 0.08}s` }}
               >
+                <span className="gc-tl" aria-hidden="true" />
+                <span className="gc-tr" aria-hidden="true" />
+                <span className="gc-bl" aria-hidden="true" />
+                <span className="gc-br" aria-hidden="true" />
                 <img
                   src={img.src}
                   alt={img.alt}
                   loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-maroon-deep/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="absolute inset-0 bg-gradient-to-t from-maroon-deep/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="absolute inset-0 ring-1 ring-inset ring-gold/0 group-hover:ring-gold/40 transition-all duration-700" />
               </div>
             ))}
           </div>
