@@ -340,73 +340,73 @@
     margin: 0;
     opacity: 0;
     overflow: hidden;
-    will-change: opacity;
-    animation: lineRevealFade 200ms ease-out var(--line-delay) forwards;
+    animation: lineRevealFade 130ms linear var(--line-delay) forwards;
   }
   .shlok-intro-line::before {
     content: "";
     position: absolute;
     left: 0;
     top: 56%;
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     background: radial-gradient(circle, hsl(var(--gold-soft)), hsl(var(--gold-deep)) 62%, transparent 72%);
-    box-shadow: 0 0 10px hsl(var(--gold) / 0.55);
-    transform: translate3d(0, -50%, 0) scale(0.85);
+    filter: drop-shadow(0 0 9px hsl(var(--gold) / 0.52));
+    transform: translateY(-50%);
     opacity: 0;
-    will-change: transform, opacity;
-    animation: penNibGlide 1.8s cubic-bezier(0.45, 0.05, 0.35, 1) var(--line-delay) forwards;
+    animation: penNibGlide 1.58s linear var(--line-delay) forwards;
   }
   .shlok-intro-line::after {
     content: "";
     position: absolute;
     left: 0;
     top: 58%;
-    width: 100%;
+    width: 0;
     height: 2px;
-    transform: translate3d(-100%, -50%, 0);
-    background: linear-gradient(90deg, hsl(var(--gold-soft) / 0.75), hsl(var(--gold) / 0.05));
+    transform: translateY(-50%);
+    background: linear-gradient(90deg, hsl(var(--gold-soft) / 0.75), hsl(var(--gold) / 0.08));
     opacity: 0;
     box-shadow: 0 0 8px hsl(var(--gold) / 0.32);
-    will-change: transform, opacity;
-    animation: inkTrailSweep 1.8s cubic-bezier(0.45, 0.05, 0.35, 1) var(--line-delay) forwards;
+    animation: inkTrailSweep 1.58s linear var(--line-delay) forwards;
   }
   .shlok-intro-line span {
     display: inline-block;
-    width: 100%;
+    width: 0;
+    white-space: normal;
+    overflow: hidden;
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(0.95rem, 4.5vw, 2.5rem);
     line-height: 1.5;
     letter-spacing: 0.03em;
     color: hsl(var(--gold-soft));
-    text-shadow: 0 0 2px hsl(var(--gold-soft) / 0.45), 0 0 10px hsl(var(--gold) / 0.25);
-    -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 0%, transparent 0%);
-            mask-image: linear-gradient(90deg, #000 0%, #000 0%, transparent 0%);
-    -webkit-mask-size: 100% 100%;
-            mask-size: 100% 100%;
-    will-change: mask-position, -webkit-mask-image;
-    animation: penWriteMask 1.8s cubic-bezier(0.45, 0.05, 0.35, 1) var(--line-delay) forwards;
+    text-shadow:
+      0 0 2px hsl(var(--gold-soft) / 0.45),
+      0 0 10px hsl(var(--gold) / 0.25);
+    animation:
+      penWrite 1.58s steps(46, end) var(--line-delay) forwards,
+      inkFlicker 1.58s ease-out var(--line-delay) forwards;
   }
   @keyframes lineRevealFade {
     to { opacity: 1; }
   }
-  @keyframes penWriteMask {
-    0%   { -webkit-mask-image: linear-gradient(90deg, #000 0%,   #000 0%,   transparent 4%);
-                   mask-image: linear-gradient(90deg, #000 0%,   #000 0%,   transparent 4%); }
-    100% { -webkit-mask-image: linear-gradient(90deg, #000 100%, #000 100%, transparent 104%);
-                   mask-image: linear-gradient(90deg, #000 100%, #000 100%, transparent 104%); }
+  @keyframes penWrite {
+    to { width: 100%; }
   }
   @keyframes penNibGlide {
-    0%   { opacity: 0; transform: translate3d(0%, -50%, 0) scale(0.85); }
-    8%   { opacity: 1; }
-    92%  { opacity: 1; transform: translate3d(calc(100% - 14px), -50%, 0) scale(1); }
-    100% { opacity: 0; transform: translate3d(100%, -50%, 0) scale(0.8); }
+    0% { opacity: 0; transform: translateY(-50%) translateX(0) scale(0.8); }
+    10% { opacity: 1; }
+    90% { opacity: 1; transform: translateY(-50%) translateX(calc(min(84vw, 820px) * 0.78)) scale(1); }
+    100% { opacity: 0; transform: translateY(-50%) translateX(calc(min(84vw, 820px) * 0.83)) scale(0.75); }
   }
   @keyframes inkTrailSweep {
-    0%   { transform: translate3d(-100%, -50%, 0); opacity: 0; }
-    10%  { opacity: 0.6; }
-    100% { transform: translate3d(0%, -50%, 0); opacity: 0; }
+    0% { width: 0; opacity: 0; }
+    12% { opacity: 0.62; }
+    100% { width: 100%; opacity: 0; }
+  }
+  @keyframes inkFlicker {
+    0% { filter: blur(0.2px); }
+    45% { filter: blur(0); }
+    100% { filter: blur(0); }
   }
   .shlok-intro-mantra {
     margin: 1rem 0 0;
@@ -416,7 +416,7 @@
     color: hsl(var(--gold-soft) / 0.95);
     opacity: 0;
     letter-spacing: 0.05em;
-    animation: fadeUp 1s var(--transition-royal) 5.4s forwards;
+    animation: fadeUp 1s var(--transition-royal) 6.4s forwards;
   }
   @keyframes shlokBgShift {
     from { background-position: 0% 0%, 0% 0%, 0% 0%; }
