@@ -233,10 +233,10 @@ const Index = () => {
   }
 
   return (
-    <main className="min-h-screen overflow-hidden">
+    <main className="min-h-screen overflow-hidden pb-28 md:pb-32">
       {/* ============ 1. SACRED WELCOME ============ */}
       {currentStep === 0 && (
-      <section className="step-screen relative min-h-screen flex items-center justify-center p-4 md:p-8 overflow-hidden bg-maroon-deep">
+      <section className="step-screen relative min-h-[calc(100vh-7rem)] md:min-h-[calc(100vh-8rem)] flex items-center justify-center px-4 pt-8 pb-4 md:pt-10 md:pb-6 overflow-hidden bg-maroon-deep">
         {/* Fullscreen Rich Background Layer */}
         <div
           className="absolute inset-0 opacity-40 mix-blend-overlay"
