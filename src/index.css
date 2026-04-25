@@ -364,7 +364,7 @@
     color: hsl(var(--gold-soft) / 0.95);
     opacity: 0;
     letter-spacing: 0.05em;
-    animation: fadeUp 1s var(--transition-royal) 6.4s forwards;
+    animation: fadeUp 0.9s var(--transition-royal) 3.1s forwards;
   }
   @keyframes shlokBgShift {
     from { background-position: 0% 0%, 0% 0%, 0% 0%; }
