@@ -376,9 +376,29 @@
     100% { opacity: 0; transform: translateY(108vh) scale(1); }
   }
   @keyframes sheetRise {
-    from { opacity: 0; transform: translateY(26px) scale(0.98); filter: blur(6px); }
-    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    from { opacity: 0; transform: translateY(20px) scale(0.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
   }
+  /* Premium gallery corner ornaments */
+  .gallery-tile { position: relative; }
+  .gallery-tile::before, .gallery-tile::after,
+  .gallery-tile > .gc-tl, .gallery-tile > .gc-tr,
+  .gallery-tile > .gc-bl, .gallery-tile > .gc-br { pointer-events: none; }
+  .gallery-tile .gc-tl, .gallery-tile .gc-tr,
+  .gallery-tile .gc-bl, .gallery-tile .gc-br {
+    position: absolute; width: 22px; height: 22px; z-index: 2;
+    border-color: hsl(var(--gold) / 0.85);
+    filter: drop-shadow(0 0 4px hsl(var(--gold) / 0.5));
+    transition: all 0.6s var(--transition-royal);
+  }
+  .gallery-tile .gc-tl { top: 6px; left: 6px; border-top: 1.5px solid; border-left: 1.5px solid; }
+  .gallery-tile .gc-tr { top: 6px; right: 6px; border-top: 1.5px solid; border-right: 1.5px solid; }
+  .gallery-tile .gc-bl { bottom: 6px; left: 6px; border-bottom: 1.5px solid; border-left: 1.5px solid; }
+  .gallery-tile .gc-br { bottom: 6px; right: 6px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
+  .gallery-tile:hover .gc-tl,
+  .gallery-tile:hover .gc-tr,
+  .gallery-tile:hover .gc-bl,
+  .gallery-tile:hover .gc-br { width: 32px; height: 32px; }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
