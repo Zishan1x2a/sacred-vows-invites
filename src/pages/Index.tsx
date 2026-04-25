@@ -130,7 +130,6 @@ const gallery = [
   { src: couple3, alt: "Intricate bridal mehendi" },
   { src: couple4, alt: "Festive sangeet evening" },
   { src: couple6, alt: "An elegant reception portrait" },
-  { src: couple1, alt: "A timeless candid of the couple" },
 ];
 
 const Index = () => {
@@ -151,7 +150,7 @@ const Index = () => {
   useEffect(() => {
     const timer = window.setTimeout(() => {
       setShowShlokIntro(false);
-    }, 7600);
+    }, 4200);
     return () => window.clearTimeout(timer);
   }, []);
 
@@ -212,7 +211,7 @@ const Index = () => {
               <p
                 key={line}
                 className="shlok-intro-line w-full text-center"
-                style={{ ["--line-delay" as string]: `${0.9 + index * 1.85}s` } as CSSProperties}
+                style={{ ["--line-delay" as string]: `${0.6 + index * 0.7}s` } as CSSProperties}
               >
                 <span className={`${index === 0 ? 'text-vermilion font-semibold drop-shadow-[0_0_8px_rgba(220,38,38,0.4)]' : 'text-gold-soft drop-shadow-[0_0_5px_rgba(212,175,55,0.3)]'}`}>
                   {line}
@@ -221,7 +220,7 @@ const Index = () => {
             ))}
           </div>
           
-          <div className="mt-10 mb-2 w-full max-w-[200px] mx-auto opacity-0 animate-[fadeIn_1.5s_ease-out_5.8s_forwards]">
+          <div className="mt-10 mb-2 w-full max-w-[200px] mx-auto opacity-0 animate-[fadeIn_0.8s_ease-out_2.8s_forwards]">
              <GoldDivider />
           </div>
           
@@ -234,10 +233,10 @@ const Index = () => {
   }
 
   return (
-    <main className="min-h-screen overflow-hidden">
+    <main className="min-h-screen overflow-hidden pb-28 md:pb-32">
       {/* ============ 1. SACRED WELCOME ============ */}
       {currentStep === 0 && (
-      <section className="step-screen relative min-h-screen flex items-center justify-center p-4 md:p-8 overflow-hidden bg-maroon-deep">
+      <section className="step-screen relative min-h-[calc(100vh-7rem)] md:min-h-[calc(100vh-8rem)] flex items-center justify-center px-4 pt-8 pb-4 md:pt-10 md:pb-6 overflow-hidden bg-maroon-deep">
         {/* Fullscreen Rich Background Layer */}
         <div
           className="absolute inset-0 opacity-40 mix-blend-overlay"
@@ -274,60 +273,60 @@ const Index = () => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vmin] h-[80vmin] max-w-[600px] max-h-[600px] bg-[radial-gradient(circle,hsl(var(--gold)/0.12)_0%,transparent_60%)] rounded-full pointer-events-none z-0"></div>
 
         {/* Main Content Floating directly on the background */}
-        <div className="step-surface relative z-10 text-center w-full max-w-3xl mx-auto flex flex-col items-center select-none pt-4">
+        <div className="step-surface relative z-10 text-center w-full max-w-3xl mx-auto flex flex-col items-center select-none">
 
-          <div className="seal-reveal flex justify-center drop-shadow-[0_0_20px_rgba(212,175,55,0.5)] mb-8">
+          <div className="seal-reveal flex justify-center drop-shadow-[0_0_20px_rgba(212,175,55,0.5)] mb-3 md:mb-5">
             <div className="relative">
-               <GaneshMark size={130} className="md:!w-[160px] md:!h-[160px] opacity-90 drop-shadow-md" />
+               <GaneshMark size={92} className="md:!w-[130px] md:!h-[130px] opacity-90 drop-shadow-md" />
                <div className="absolute inset-0 border border-gold/30 rounded-full animate-[inviteRing_3s_ease-out_infinite]"></div>
             </div>
           </div>
 
-          <p className="font-script text-3xl md:text-5xl text-gold-soft mt-2 fade-in tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-bold flex items-center justify-center gap-4" style={{ animationDelay: "0.6s" }}>
-            <span className="text-gold-deep text-2xl md:text-3xl">✤</span> 
+          <p className="font-script text-2xl md:text-4xl text-gold-soft fade-in tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-bold flex items-center justify-center gap-3" style={{ animationDelay: "0.4s" }}>
+            <span className="text-gold-deep text-xl md:text-2xl">✤</span> 
             Shree Ganeshaya Namah 
-            <span className="text-gold-deep text-2xl md:text-3xl">✤</span>
+            <span className="text-gold-deep text-xl md:text-2xl">✤</span>
           </p>
 
-          <div className="fade-up flex flex-col items-center w-full mt-6" style={{ animationDelay: "1s" }}>
-            <div className="my-6 w-full max-w-[250px] opacity-80 filter drop-shadow-[0_0_8px_rgba(212,175,55,0.5)]">
+          <div className="fade-up flex flex-col items-center w-full mt-3 md:mt-5" style={{ animationDelay: "0.7s" }}>
+            <div className="my-2 md:my-3 w-full max-w-[220px] opacity-80 filter drop-shadow-[0_0_8px_rgba(212,175,55,0.5)]">
               <GoldDivider />
             </div>
             
-            <p className="font-display text-[0.65rem] md:text-xs uppercase tracking-[0.5em] md:tracking-[0.6em] text-ivory/80 mb-10 pb-2 border-b border-gold/30">
+            <p className="font-display text-[0.6rem] md:text-xs uppercase tracking-[0.45em] md:tracking-[0.6em] text-ivory/80 mb-3 md:mb-5 pb-1 border-b border-gold/30">
               Dear {guestName}
             </p>
             
-            <div className="flex flex-col items-center mb-10 w-full relative">
-                <h1 className="font-display text-5xl md:text-[6.5rem] text-ivory leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)] font-normal z-10">
+            <div className="flex flex-col items-center mb-3 md:mb-5 w-full relative">
+                <h1 className="font-display text-4xl md:text-7xl text-ivory leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)] font-normal z-10">
                 {couple.bride.split(" ")[0]}
                 </h1>
                 
-                <span className="font-script text-5xl md:text-7xl text-gold-deep my-4 z-10 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] italic">weds</span>
+                <span className="font-script text-4xl md:text-6xl text-gold-deep my-1 md:my-2 z-10 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] italic">weds</span>
                 
-                <h1 className="font-display text-5xl md:text-[6.5rem] text-ivory leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)] font-normal z-10">
+                <h1 className="font-display text-4xl md:text-7xl text-ivory leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)] font-normal z-10">
                 {couple.groom.split(" ")[0]}
                 </h1>
             </div>
             
-            <p className="font-serif-elegant italic text-lg md:text-2xl text-ivory/90 mb-4 px-4 font-medium drop-shadow-md">
+            <p className="font-serif-elegant italic text-base md:text-xl text-ivory/90 mb-2 md:mb-3 px-4 font-medium drop-shadow-md">
               To begin their journey of eternal love
             </p>
             
-            <div className="flex items-center gap-4 mb-4 opacity-90">
-                <span className="h-[1px] w-12 bg-gold/50"></span>
-                <p className="font-display text-[0.7rem] md:text-sm uppercase tracking-[0.3em] md:tracking-[0.4em] text-gold-soft font-semibold drop-shadow-md">
+            <div className="flex items-center gap-3 mb-3 md:mb-5 opacity-90">
+                <span className="h-[1px] w-8 md:w-12 bg-gold/50"></span>
+                <p className="font-display text-[0.6rem] md:text-xs uppercase tracking-[0.25em] md:tracking-[0.4em] text-gold-soft font-semibold drop-shadow-md">
                 {weddingDateLabel} 
-                <span className="text-ivory/50 mx-4">|</span> 
+                <span className="text-ivory/50 mx-2 md:mx-4">|</span> 
                 {destination}
                 </p>
-                <span className="h-[1px] w-12 bg-gold/50"></span>
+                <span className="h-[1px] w-8 md:w-12 bg-gold/50"></span>
             </div>
 
-            <div className="mt-14 relative w-full flex justify-center">
-              <button type="button" onClick={() => setCurrentStep(1)} className="btn-royal btn-open-invitation group !px-12 !py-5 md:!px-16 md:!py-6 rounded-full overflow-hidden shadow-[0_0_40px_rgba(212,175,55,0.4)] border-1 border-gold/80">
-                <span className="relative z-10 flex items-center gap-3 text-[0.75rem] md:text-base font-semibold tracking-[0.35em] md:tracking-[0.45em] text-ivory uppercase">
-                  Open Invitation <span className="text-gold-deep group-hover:translate-y-1 transition-transform text-xl">▼</span>
+            <div className="mt-2 md:mt-4 relative w-full flex justify-center">
+              <button type="button" onClick={() => setCurrentStep(1)} className="btn-royal btn-open-invitation group !px-10 !py-4 md:!px-14 md:!py-5 rounded-full overflow-hidden shadow-[0_0_40px_rgba(212,175,55,0.4)] border-1 border-gold/80">
+                <span className="relative z-10 flex items-center gap-3 text-[0.7rem] md:text-sm font-semibold tracking-[0.3em] md:tracking-[0.4em] text-ivory uppercase">
+                  Open Invitation <span className="text-gold-deep group-hover:translate-y-1 transition-transform text-lg">▼</span>
                 </span>
               </button>
             </div>
@@ -504,21 +503,27 @@ const Index = () => {
             <GoldDivider />
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
+          <div className="grid grid-cols-2 md:grid-cols-3 auto-rows-[1fr] gap-3 md:gap-5">
             {gallery.map((img, i) => (
               <div
                 key={i}
-                className={`group relative overflow-hidden ornate-border ${
-                  i === 0 ? "col-span-2 md:col-span-2 row-span-2 aspect-square md:aspect-[4/5]" : "aspect-square"
+                className={`gallery-tile group relative overflow-hidden ornate-border rounded-sm fade-up ${
+                  i === 0 ? "col-span-2 row-span-2 aspect-square md:aspect-auto" : "aspect-square"
                 }`}
+                style={{ animationDelay: `${i * 0.08}s` }}
               >
+                <span className="gc-tl" aria-hidden="true" />
+                <span className="gc-tr" aria-hidden="true" />
+                <span className="gc-bl" aria-hidden="true" />
+                <span className="gc-br" aria-hidden="true" />
                 <img
                   src={img.src}
                   alt={img.alt}
                   loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-maroon-deep/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="absolute inset-0 bg-gradient-to-t from-maroon-deep/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="absolute inset-0 ring-1 ring-inset ring-gold/0 group-hover:ring-gold/40 transition-all duration-700" />
               </div>
             ))}
           </div>
