@@ -183,45 +183,43 @@
     color: hsl(var(--maroon-deep));
   }
 
-  /* Animations */
-  .fade-up { animation: fadeUp 1s var(--transition-royal) both; }
-  .fade-in { animation: fadeIn 1.2s ease-out both; }
-  .seal-reveal { animation: sealReveal 1.6s var(--transition-royal) both; }
-  .float-slow { animation: floatSlow 6s ease-in-out infinite; }
-  .step-screen { animation: stepReveal 850ms var(--transition-royal) both; }
-  .step-surface { animation: surfaceLift 950ms var(--transition-royal) both; }
-  .step-heading { animation: headingBloom 900ms var(--transition-royal) both; }
+  /* Animations — GPU-friendly transforms only */
+  .fade-up { animation: fadeUp 0.7s var(--transition-royal) both; will-change: transform, opacity; }
+  .fade-in { animation: fadeIn 0.8s ease-out both; will-change: opacity; }
+  .seal-reveal { animation: sealReveal 1s var(--transition-royal) both; will-change: transform, opacity; }
+  .float-slow { animation: floatSlow 6s ease-in-out infinite; will-change: transform; }
+  .step-screen { animation: stepReveal 0.55s var(--transition-royal) both; will-change: transform, opacity; }
+  .step-surface { animation: surfaceLift 0.65s var(--transition-royal) both; will-change: transform, opacity; }
+  .step-heading { animation: headingBloom 0.6s var(--transition-royal) both; will-change: transform, opacity; }
   .luxury-card {
-    transition: transform 0.6s var(--transition-royal), box-shadow 0.6s var(--transition-royal), border-color 0.6s var(--transition-royal);
-    will-change: transform;
+    transition: transform 0.35s var(--transition-royal), box-shadow 0.35s var(--transition-royal), border-color 0.35s var(--transition-royal);
   }
   .luxury-card:hover {
-    transform: translateY(-6px) scale(1.01);
+    transform: translate3d(0,-5px,0) scale(1.01);
     box-shadow: var(--shadow-royal), inset 0 0 0 1px hsl(var(--gold) / 0.45);
     border-color: hsl(var(--gold) / 0.7);
   }
   .premium-glow::before {
     content: "";
     position: absolute;
-    inset: -20% -10% auto -10%;
-    height: 45%;
-    background: radial-gradient(circle, hsl(var(--gold) / 0.24), transparent 70%);
-    filter: blur(20px);
-    opacity: 0.55;
+    inset: -10% -5% auto -5%;
+    height: 40%;
+    background: radial-gradient(circle, hsl(var(--gold) / 0.18), transparent 70%);
+    opacity: 0.6;
     pointer-events: none;
   }
 
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translate3d(0,20px,0); }
+    to { opacity: 1; transform: translate3d(0,0,0); }
   }
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
   }
   @keyframes sealReveal {
-    0% { opacity: 0; transform: scale(0.6) rotate(-15deg); filter: blur(8px); }
-    100% { opacity: 1; transform: scale(1) rotate(0); filter: blur(0); }
+    0% { opacity: 0; transform: scale(0.7) rotate(-10deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0); }
   }
   @keyframes floatSlow {
     0%, 100% { transform: translateY(0); }
