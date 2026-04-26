@@ -155,8 +155,15 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "auto" });
   }, [currentStep]);
+
+  // Stable ambient motes for the welcome screen (avoid per-render randomness)
+  const welcomeMotes = Array.from({ length: 14 }, (_, i) => ({
+    left: (i * 37) % 100,
+    top: (i * 53) % 100,
+    delay: (i % 6) * 0.7,
+  }));
 
   const stepTitleByIndex = [
     "Sacred Welcome",
