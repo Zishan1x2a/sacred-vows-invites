@@ -687,7 +687,7 @@ const Index = () => {
       </footer>
       )}
 
-      <div className="fixed bottom-4 left-1/2 z-50 w-[min(92vw,760px)] -translate-x-1/2 rounded-2xl border border-gold/30 bg-ivory/90 backdrop-blur px-4 py-3 shadow-lg">
+      <div className="fixed bottom-4 left-1/2 z-50 w-[min(92vw,760px)] -translate-x-1/2 rounded-2xl border border-gold/30 bg-ivory/95 px-4 py-3 shadow-lg">
         <div className="flex items-center justify-between gap-3">
           <button
             type="button"
