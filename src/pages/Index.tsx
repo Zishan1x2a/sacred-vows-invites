@@ -246,7 +246,7 @@ const Index = () => {
       <section className="step-screen relative min-h-[calc(100vh-7rem)] md:min-h-[calc(100vh-8rem)] flex items-center justify-center px-4 pt-8 pb-4 md:pt-10 md:pb-6 overflow-hidden bg-maroon-deep">
         {/* Fullscreen Rich Background Layer */}
         <div
-          className="absolute inset-0 opacity-40 mix-blend-overlay"
+          className="absolute inset-0 opacity-30"
           style={{
             backgroundImage: `url(${heroBg})`,
             backgroundSize: "cover",
@@ -254,16 +254,16 @@ const Index = () => {
           }}
           aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#2a0808]/90 via-maroon-deep/80 to-[#1a0f0a]/90" aria-hidden="true" />
-        
-        {/* Floating Ambient Motes */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#2a0808]/85 via-maroon-deep/80 to-[#1a0f0a]/90" aria-hidden="true" />
+
+        {/* Floating Ambient Motes (stable, lightweight) */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {Array.from({ length: 25 }).map((_, i) => (
-            <div 
-              key={i} 
-              className="absolute w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-gold/50 animate-[floatSlow_8s_ease-in-out_infinite] shadow-[0_0_8px_rgba(212,175,55,0.8)]" 
-              style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 5}s` }}>
-            </div>
+          {welcomeMotes.map((m, i) => (
+            <div
+              key={i}
+              className="absolute w-1.5 h-1.5 rounded-full bg-gold/40 animate-[floatSlow_8s_ease-in-out_infinite]"
+              style={{ left: `${m.left}%`, top: `${m.top}%`, animationDelay: `${m.delay}s` }}
+            />
           ))}
         </div>
 
