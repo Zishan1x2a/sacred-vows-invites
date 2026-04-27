@@ -260,22 +260,30 @@
     padding: 1.25rem;
     overflow: hidden;
     background:
-      radial-gradient(circle at 18% 18%, hsl(var(--gold) / 0.24), transparent 34%),
-      radial-gradient(circle at 84% 78%, hsl(var(--maroon) / 0.24), transparent 46%),
-      linear-gradient(160deg, #1f1712 0%, #3a291d 50%, #2a1d15 100%);
+      radial-gradient(ellipse at 50% 40%, hsl(var(--gold) / 0.18), transparent 55%),
+      radial-gradient(circle at 15% 85%, hsl(var(--maroon) / 0.35), transparent 50%),
+      radial-gradient(circle at 85% 15%, hsl(var(--maroon) / 0.28), transparent 50%),
+      linear-gradient(155deg, #1a1108 0%, #2e1d10 45%, #1f1209 100%);
+    animation: shlokScreenIn 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
   .shlok-intro-screen::before {
     content: "";
     position: absolute;
-    inset: 0;
+    inset: -10%;
     background:
-      repeating-linear-gradient(
-        0deg,
-        transparent 0 48px,
-        hsl(var(--gold) / 0.06) 48px 49px
-      ),
-      radial-gradient(circle at 30% 25%, hsl(var(--gold) / 0.18), transparent 48%);
-    opacity: 0.42;
+      radial-gradient(circle at 50% 50%, hsl(var(--gold) / 0.10), transparent 60%);
+    pointer-events: none;
+    animation: auraBreathe 6s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+  .shlok-intro-screen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(hsl(var(--gold) / 0.08) 1px, transparent 1px);
+    background-size: 22px 22px;
+    opacity: 0.35;
     pointer-events: none;
   }
   .shlok-intro-ambient {
@@ -287,147 +295,144 @@
   .shlok-intro-mote {
     position: absolute;
     top: -8%;
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     border-radius: 999px;
-    background: radial-gradient(circle, hsl(var(--gold-soft)), hsl(var(--gold-deep)));
+    background: radial-gradient(circle, hsl(var(--gold-soft)), hsl(var(--gold-deep)) 60%, transparent 70%);
     opacity: 0;
-    filter: blur(0.3px) drop-shadow(0 0 8px hsl(var(--gold) / 0.55));
+    filter: drop-shadow(0 0 6px hsl(var(--gold) / 0.65));
     animation-name: shlokMoteFall;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
+    will-change: transform, opacity;
   }
   .shlok-intro-sheet {
     position: relative;
     z-index: 1;
     width: min(92vw, 920px);
     padding: clamp(1.2rem, 2.2vw, 2rem);
-    border-radius: 14px;
-    border: 1px solid hsl(var(--gold) / 0.38);
+    border-radius: 18px;
+    border: 1px solid hsl(var(--gold) / 0.42);
     background:
-      linear-gradient(180deg, hsl(30 22% 22% / 0.96), hsl(24 28% 18% / 0.97)),
-      repeating-linear-gradient(
-        0deg,
-        transparent 0 56px,
-        hsl(var(--gold) / 0.14) 56px 58px
-      );
+      linear-gradient(180deg, hsl(28 30% 14% / 0.92), hsl(20 32% 10% / 0.95));
     box-shadow:
-      0 26px 70px hsl(0 0% 0% / 0.52),
-      inset 0 0 0 1px hsl(var(--gold) / 0.28),
-      inset 0 0 52px hsl(var(--gold) / 0.09);
-    animation: sheetRise 1s var(--transition-royal) both;
+      0 30px 80px hsl(0 0% 0% / 0.6),
+      inset 0 0 0 1px hsl(var(--gold) / 0.22),
+      inset 0 0 60px hsl(var(--gold) / 0.08);
+    animation: sheetRise 1100ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    will-change: transform, opacity;
+  }
+  .shlok-intro-sheet::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border-radius: 14px;
+    border: 1px solid hsl(var(--gold) / 0.18);
+    pointer-events: none;
   }
   .shlok-intro-label {
     margin: 0;
     text-align: center;
     font-family: 'Cinzel', serif;
     font-size: clamp(0.62rem, 1vw, 0.76rem);
-    letter-spacing: 0.26em;
+    letter-spacing: 0.32em;
     text-transform: uppercase;
     color: hsl(var(--gold-soft));
     opacity: 0;
-    animation: fadeIn 0.9s ease-out 0.2s forwards;
+    transform: translateY(-6px);
+    animation: fadeDown 800ms cubic-bezier(0.22, 1, 0.36, 1) 600ms forwards;
   }
   .shlok-intro-lines {
     margin-top: 1.1rem;
     display: grid;
-    gap: 0.7rem;
+    gap: 0.85rem;
   }
   .shlok-intro-line {
     position: relative;
     margin: 0;
     opacity: 0;
-    overflow: hidden;
-    animation: lineRevealFade 130ms linear var(--line-delay) forwards;
-  }
-  .shlok-intro-line::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 56%;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: radial-gradient(circle, hsl(var(--gold-soft)), hsl(var(--gold-deep)) 62%, transparent 72%);
-    filter: drop-shadow(0 0 9px hsl(var(--gold) / 0.52));
-    transform: translateY(-50%);
-    opacity: 0;
-    animation: penNibGlide 1.58s linear var(--line-delay) forwards;
-  }
-  .shlok-intro-line::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 58%;
-    width: 0;
-    height: 2px;
-    transform: translateY(-50%);
-    background: linear-gradient(90deg, hsl(var(--gold-soft) / 0.75), hsl(var(--gold) / 0.08));
-    opacity: 0;
-    box-shadow: 0 0 8px hsl(var(--gold) / 0.32);
-    animation: inkTrailSweep 1.58s linear var(--line-delay) forwards;
+    transform: translateY(14px);
+    animation: shlokLineRise 1100ms cubic-bezier(0.22, 1, 0.36, 1) var(--line-delay) forwards;
+    will-change: transform, opacity;
   }
   .shlok-intro-line span {
+    position: relative;
     display: inline-block;
-    width: 0;
-    white-space: normal;
-    overflow: hidden;
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(0.95rem, 4.5vw, 2.5rem);
-    line-height: 1.5;
-    letter-spacing: 0.03em;
+    font-size: clamp(1.05rem, 4.5vw, 2.5rem);
+    line-height: 1.55;
+    letter-spacing: 0.02em;
     color: hsl(var(--gold-soft));
     text-shadow:
       0 0 2px hsl(var(--gold-soft) / 0.45),
-      0 0 10px hsl(var(--gold) / 0.25);
-    animation:
-      penWrite 1.58s steps(46, end) var(--line-delay) forwards,
-      inkFlicker 1.58s ease-out var(--line-delay) forwards;
+      0 0 14px hsl(var(--gold) / 0.32);
+    background: linear-gradient(
+      100deg,
+      hsl(var(--gold-soft)) 0%,
+      hsl(var(--gold)) 30%,
+      hsl(45 100% 88%) 50%,
+      hsl(var(--gold)) 70%,
+      hsl(var(--gold-soft)) 100%
+    );
+    background-size: 220% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: goldShimmer 2400ms ease-out var(--line-delay) forwards;
   }
-  @keyframes lineRevealFade {
-    to { opacity: 1; }
+  @keyframes shlokLineRise {
+    0%   { opacity: 0; transform: translateY(14px); filter: blur(2px); }
+    60%  { opacity: 1; filter: blur(0); }
+    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
   }
-  @keyframes penWrite {
-    to { width: 100%; }
+  @keyframes goldShimmer {
+    0%   { background-position: 100% 0; }
+    100% { background-position: 0 0; }
   }
-  @keyframes penNibGlide {
-    0% { opacity: 0; transform: translateY(-50%) translateX(0) scale(0.8); }
-    10% { opacity: 1; }
-    90% { opacity: 1; transform: translateY(-50%) translateX(calc(min(84vw, 820px) * 0.78)) scale(1); }
-    100% { opacity: 0; transform: translateY(-50%) translateX(calc(min(84vw, 820px) * 0.83)) scale(0.75); }
+  @keyframes auraBreathe {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.04); }
   }
-  @keyframes inkTrailSweep {
-    0% { width: 0; opacity: 0; }
-    12% { opacity: 0.62; }
-    100% { width: 100%; opacity: 0; }
+  @keyframes shlokScreenIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
   }
-  @keyframes inkFlicker {
-    0% { filter: blur(0.2px); }
-    45% { filter: blur(0); }
-    100% { filter: blur(0); }
+  @keyframes fadeDown {
+    to { opacity: 1; transform: translateY(0); }
   }
   .shlok-intro-mantra {
     margin: 1rem 0 0;
     text-align: center;
     font-family: 'Tangerine', cursive;
-    font-size: clamp(2rem, 4vw, 3.1rem);
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
     color: hsl(var(--gold-soft) / 0.95);
     opacity: 0;
+    transform: translateY(10px) scale(0.96);
     letter-spacing: 0.05em;
-    animation: fadeUp 1s var(--transition-royal) 6.4s forwards;
+    animation: mantraReveal 1200ms cubic-bezier(0.22, 1, 0.36, 1) 5.2s forwards;
+    will-change: transform, opacity;
   }
-  @keyframes shlokBgShift {
-    from { background-position: 0% 0%, 0% 0%, 0% 0%; }
-    to { background-position: 6% -8%, -7% 9%, 0% 0%; }
+  @keyframes mantraReveal {
+    0%   { opacity: 0; transform: translateY(10px) scale(0.96); filter: blur(3px); }
+    100% { opacity: 1; transform: translateY(0) scale(1);       filter: blur(0); }
   }
   @keyframes shlokMoteFall {
-    0% { opacity: 0; transform: translateY(-8vh) scale(0.65); }
-    8% { opacity: 0.9; }
-    100% { opacity: 0; transform: translateY(108vh) scale(1); }
+    0%   { opacity: 0; transform: translate3d(0, -8vh, 0) scale(0.6); }
+    10%  { opacity: 0.9; }
+    100% { opacity: 0; transform: translate3d(0, 108vh, 0) scale(1); }
   }
   @keyframes sheetRise {
-    from { opacity: 0; transform: translateY(20px) scale(0.985); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+    from { opacity: 0; transform: translate3d(0, 24px, 0) scale(0.97); }
+    to   { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .shlok-intro-screen::before,
+    .shlok-intro-mote { animation: none !important; }
+    .shlok-intro-line,
+    .shlok-intro-line span,
+    .shlok-intro-mantra,
+    .shlok-intro-sheet { animation-duration: 400ms !important; }
   }
   /* Premium gallery corner ornaments */
   .gallery-tile { position: relative; }
