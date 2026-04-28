@@ -430,12 +430,30 @@ const Index = () => {
             </div>
 
             <div className="mt-2 md:mt-4 relative w-full flex justify-center pb-1 md:pb-2">
-              <button type="button" onClick={() => setCurrentStep(1)} className="btn-royal btn-open-invitation group !px-6 !py-3 md:!px-12 md:!py-4 rounded-full overflow-hidden shadow-[0_10px_40px_-10px_rgba(128,0,0,0.5)] border border-gold/80 hover:border-gold scale-100 md:scale-110">
-                <span className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.2)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
-                <span className="relative z-10 flex items-center gap-2 md:gap-3 text-[0.55rem] md:text-xs font-bold tracking-[0.35em] md:tracking-[0.45em] text-ivory uppercase drop-shadow-md">
-                  Open Invitation <span className="text-gold-soft group-hover:translate-y-1.5 transition-transform duration-300 text-base md:text-lg">▼</span>
-                </span>
-              </button>
+              <div className="invite-cta-wrap relative">
+                <span aria-hidden className="invite-halo"></span>
+                <span aria-hidden className="invite-orbit invite-orbit-1"></span>
+                <span aria-hidden className="invite-orbit invite-orbit-2"></span>
+                <span aria-hidden className="invite-spark invite-spark-1"></span>
+                <span aria-hidden className="invite-spark invite-spark-2"></span>
+                <span aria-hidden className="invite-spark invite-spark-3"></span>
+                <span aria-hidden className="invite-spark invite-spark-4"></span>
+                <button
+                  type="button"
+                  onClick={() => setCurrentStep(1)}
+                  className="btn-open-invitation group relative inline-flex items-center justify-center rounded-full px-7 py-3 md:px-12 md:py-4 scale-100 md:scale-110"
+                >
+                  <span aria-hidden className="invite-conic"></span>
+                  <span aria-hidden className="invite-core"></span>
+                  <span aria-hidden className="invite-sheen"></span>
+                  <span aria-hidden className="invite-inner-ring"></span>
+                  <span className="relative z-10 flex items-center gap-2 md:gap-3 font-display text-[0.6rem] md:text-xs font-semibold tracking-[0.38em] md:tracking-[0.48em] uppercase invite-label">
+                    <span aria-hidden className="invite-leaf">✦</span>
+                    Open Invitation
+                    <span aria-hidden className="invite-chevron">▾</span>
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
