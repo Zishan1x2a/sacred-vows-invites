@@ -10,6 +10,7 @@ import couple5 from "@/assets/couple-5.jpg";
 import couple6 from "@/assets/couple-6.jpg";
 import { GoldDivider, SectionLabel, SectionTitle, GaneshMark } from "@/components/wedding/Ornaments";
 import { Countdown } from "@/components/wedding/Countdown";
+import { ScratchHeart } from "@/components/ScratchHeart";
 import { EventCard, type EventData } from "@/components/wedding/EventCard";
 import { RsvpAccept } from "@/components/wedding/RsvpAccept";
 import { BlessingsWall } from "@/components/wedding/BlessingsWall";
@@ -132,8 +133,31 @@ const gallery = [
   { src: couple6, alt: "An elegant reception portrait" },
 ];
 
+const HangingBell = ({ delay = "0s", left = "50%", scale = 1 }: { delay?: string; left?: string; scale?: number }) => (
+  <div 
+    className="absolute top-0 pointer-events-none origin-top z-0" 
+    style={{ left, transform: `translateX(-50%) scale(${scale})`, animation: `floatSlow 5s ease-in-out infinite ${delay}` }}
+  >
+    <svg width="40" height="150" viewBox="0 0 40 150" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-[0_4px_6px_rgba(128,0,0,0.3)] opacity-70">
+      <line x1="20" y1="0" x2="20" y2="80" stroke="url(#bell-gold)" strokeWidth="1.5" strokeDasharray="4 4" />
+      <circle cx="20" cy="25" r="3" fill="#ffe58f" />
+      <circle cx="20" cy="55" r="4" fill="#d4af37" />
+      <path d="M20 75 C 5 75, 5 105, 0 120 C 10 123, 30 123, 40 120 C 35 105, 35 75, 20 75 Z" fill="url(#bell-gold)" />
+      <circle cx="20" cy="125" r="4" fill="#d4af37" />
+      <defs>
+        <linearGradient id="bell-gold" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#ffe58f" />
+          <stop offset="40%" stopColor="#d4af37" />
+          <stop offset="100%" stopColor="#8a6d1c" />
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+);
+
 const Index = () => {
-  const [showShlokIntro, setShowShlokIntro] = useState(true);
+  const [showScratchCard, setShowScratchCard] = useState(true);
+  const [showShlokIntro, setShowShlokIntro] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const totalSteps = 11;
   const openingShlokaLines = [
@@ -148,11 +172,21 @@ const Index = () => {
   }));
 
   useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setShowShlokIntro(false);
-    }, 7600);
-    return () => window.clearTimeout(timer);
-  }, []);
+    if (showShlokIntro) {
+      const timer = window.setTimeout(() => {
+        setShowShlokIntro(false);
+      }, 7600);
+      return () => window.clearTimeout(timer);
+    }
+  }, [showShlokIntro]);
+
+  const handleScratchComplete = () => {
+    setShowShlokIntro(true);
+  };
+
+  const handleScratchReveal = () => {
+    setShowScratchCard(false);
+  };
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
@@ -179,10 +213,35 @@ const Index = () => {
     "Closing Note",
   ];
 
-  if (showShlokIntro) {
-    return (
-      <section className="shlok-intro-screen" aria-label="Opening shlok animation">
-        <div className="shlok-intro-ambient" aria-hidden="true">
+  return (
+    <>
+      {showShlokIntro && (
+        <section className="shlok-intro-screen fixed inset-0 z-50 flex items-center justify-center px-4 pt-8 pb-4 md:pt-10 md:pb-6 overflow-hidden bg-maroon-deep" aria-label="Opening shlok animation">
+        {/* Fullscreen Rich Background Layer */}
+        <div
+          className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage: `url(${heroBg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#2a0808]/85 via-maroon-deep/80 to-[#1a0f0a]/90" aria-hidden="true" />
+
+        {/* Elegant Perimeter Frame */}
+        <div className="absolute inset-4 md:inset-8 border-x border-y border-gold/20 rounded-[2rem] pointer-events-none flex items-center justify-center z-10">
+            {/* Corner Ornaments */}
+            <div className="absolute top-0 left-0 w-12 h-12 border-t border-l border-gold/50 rounded-tl-[2rem]"></div>
+            <div className="absolute top-0 right-0 w-12 h-12 border-t border-r border-gold/50 rounded-tr-[2rem]"></div>
+            <div className="absolute bottom-0 left-0 w-12 h-12 border-b border-l border-gold/50 rounded-bl-[2rem]"></div>
+            <div className="absolute bottom-0 right-0 w-12 h-12 border-b border-r border-gold/50 rounded-br-[2rem]"></div>
+        </div>
+
+        {/* Glowing Central Element */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vmin] h-[80vmin] max-w-[600px] max-h-[600px] bg-[radial-gradient(circle,hsl(var(--gold)/0.12)_0%,transparent_60%)] rounded-full pointer-events-none z-0"></div>
+
+        <div className="shlok-intro-ambient absolute inset-0 overflow-hidden pointer-events-none z-10" aria-hidden="true">
           {introMotes.map((mote, index) => (
             <span
               key={`mote-${index}`}
@@ -198,142 +257,183 @@ const Index = () => {
           ))}
         </div>
         
-        <div className="shlok-intro-sheet relative max-w-[95%] md:max-w-4xl mx-auto flex flex-col items-center justify-center p-8 md:p-14 rounded-xl border border-gold/30 shadow-[0_0_40px_rgba(212,175,55,0.15)] bg-gradient-to-b from-[#1a0f0a]/90 to-[#2a1a10]/90 backdrop-blur-md">
-          {/* Corner Ornaments */}
-          <div className="absolute top-4 left-4 w-6 h-6 border-t-[1.5px] border-l-[1.5px] border-gold/60 md:w-10 md:h-10 md:top-6 md:left-6 transition-all duration-1000"></div>
-          <div className="absolute top-4 right-4 w-6 h-6 border-t-[1.5px] border-r-[1.5px] border-gold/60 md:w-10 md:h-10 md:top-6 md:right-6 transition-all duration-1000"></div>
-          <div className="absolute bottom-4 left-4 w-6 h-6 border-b-[1.5px] border-l-[1.5px] border-gold/60 md:w-10 md:h-10 md:bottom-6 md:left-6 transition-all duration-1000"></div>
-          <div className="absolute bottom-4 right-4 w-6 h-6 border-b-[1.5px] border-r-[1.5px] border-gold/60 md:w-10 md:h-10 md:bottom-6 md:right-6 transition-all duration-1000"></div>
+        <div className="shlok-intro-sheet relative z-20 w-[92%] md:max-w-3xl mx-auto flex flex-col items-center justify-center p-6 py-6 md:p-8 rounded-xl border border-gold/40 shadow-[0_0_60px_rgba(212,175,55,0.25)] bg-gradient-to-b from-[#1a0f0a]/95 to-[#2a1a10]/95 backdrop-blur-md">
+          {/* Stacked Card Borders */}
+          <div className="absolute inset-[-8px] md:inset-[-10px] border-[1px] border-gold/20 rounded-[1.2rem] pointer-events-none" aria-hidden="true"></div>
+          <div className="absolute inset-[-16px] md:inset-[-20px] border-[1px] border-gold/10 rounded-[1.5rem] pointer-events-none" aria-hidden="true"></div>
 
-          <div className="mb-6 md:mb-8 opacity-0 animate-[fadeIn_1.5s_ease-out_0.2s_forwards] scale-90 md:scale-100 drop-shadow-[0_0_12px_rgba(255,215,0,0.5)]">
-             <GaneshMark size={85} />
+          {/* Corner Ornaments */}
+          <div className="absolute top-4 left-4 w-6 h-6 border-t-[1.5px] border-l-[1.5px] border-gold/60 md:w-8 md:h-8 md:top-5 md:left-5 transition-all duration-1000"></div>
+          <div className="absolute top-4 right-4 w-6 h-6 border-t-[1.5px] border-r-[1.5px] border-gold/60 md:w-8 md:h-8 md:top-5 md:right-5 transition-all duration-1000"></div>
+          <div className="absolute bottom-4 left-4 w-6 h-6 border-b-[1.5px] border-l-[1.5px] border-gold/60 md:w-8 md:h-8 md:bottom-5 md:left-5 transition-all duration-1000"></div>
+          <div className="absolute bottom-4 right-4 w-6 h-6 border-b-[1.5px] border-r-[1.5px] border-gold/60 md:w-8 md:h-8 md:bottom-5 md:right-5 transition-all duration-1000"></div>
+
+          <div className="mb-3 md:mb-4 opacity-0 animate-[fadeIn_1.5s_ease-out_0.2s_forwards] scale-75 drop-shadow-[0_0_12px_rgba(255,215,0,0.5)]">
+             <GaneshMark size={70} />
           </div>
 
-          <p className="shlok-intro-label text-gold-soft tracking-[0.3em] md:tracking-[0.5em] text-[0.65rem] md:text-xs mb-6 pb-3 border-b border-gold/20 inline-block px-6 md:px-12 uppercase">
+          <p className="shlok-intro-label text-gold-soft tracking-[0.3em] md:tracking-[0.4em] text-[0.6rem] md:text-[0.65rem] mb-3 md:mb-3 pb-1.5 border-b border-gold/20 inline-block px-5 md:px-10 uppercase">
             Sacred Invocation
           </p>
           
-          <div className="shlok-intro-lines flex flex-col items-center space-y-5 md:space-y-7 w-full px-2 mt-4">
+          <div className="shlok-intro-lines flex flex-col items-center space-y-2 md:space-y-3 w-full px-2 mt-1 md:mt-2">
             {openingShlokaLines.map((line, index) => (
-              <p
+              <div
                 key={line}
-                className="shlok-intro-line w-full text-center"
+                className="relative inline-block text-center shlok-line-wrapper opacity-0"
                 style={{ ["--line-delay" as string]: `${0.9 + index * 1.85}s` } as CSSProperties}
               >
-                <span className={`${index === 0 ? 'text-vermilion font-semibold drop-shadow-[0_0_8px_rgba(220,38,38,0.4)]' : 'text-gold-soft drop-shadow-[0_0_5px_rgba(212,175,55,0.3)]'}`}>
+                {/* Hidden text to define exact width and height */}
+                <span className={`shlok-intro-text inline-block opacity-0 invisible ${index === 0 ? 'font-semibold' : ''}`} aria-hidden="true">
                   {line}
                 </span>
-              </p>
+                {/* Typing text absolutely positioned */}
+                <span className={`shlok-intro-text absolute top-0 left-0 h-full overflow-hidden whitespace-nowrap border-r-[2px] md:border-r-[3px] border-transparent ${index === 0 ? 'text-vermilion font-semibold drop-shadow-[0_0_8px_rgba(220,38,38,0.4)]' : 'text-gold-soft drop-shadow-[0_0_5px_rgba(212,175,55,0.3)]'} typing-animation`} style={{ ["--steps" as string]: line.length } as CSSProperties}>
+                  {line}
+                </span>
+              </div>
             ))}
           </div>
           
-          <div className="mt-10 mb-2 w-full max-w-[200px] mx-auto opacity-0 animate-[fadeIn_1.5s_ease-out_5.8s_forwards]">
+          <div className="mt-4 md:mt-5 mb-1.5 md:mb-2 w-full max-w-[120px] md:max-w-[160px] mx-auto opacity-0 animate-[fadeIn_1.5s_ease-out_5.8s_forwards]">
              <GoldDivider />
           </div>
           
-          <p className="shlok-intro-mantra mt-4 text-3xl md:text-5xl text-gold pb-2 drop-shadow-[0_0_10px_rgba(212,175,55,0.4)]">
-            शुभारम्भ
-          </p>
+          <div className="mt-3 md:mt-4 flex justify-center opacity-0 shlok-line-wrapper" style={{ ["--line-delay" as string]: "6.4s" } as CSSProperties}>
+            <div style={{ animation: "dullHighPulse 3s ease-in-out infinite 8.6s" }}>
+              <div className="relative inline-block text-center">
+                <span className="font-serif-elegant text-3xl md:text-4xl text-gold-soft tracking-[0.15em] inline-block pb-1.5 md:pb-2 brush-reveal-animation drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" style={{ ["--line-delay" as string]: "6.4s" } as CSSProperties}>
+                  शुभारम्भ
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
-      </section>
-    );
-  }
+        </section>
+      )}
 
-  return (
-    <main className="min-h-screen overflow-hidden pb-28 md:pb-32">
+      {showScratchCard && (
+        <ScratchHeart 
+          onScratchComplete={handleScratchComplete}
+          onReveal={handleScratchReveal} 
+        />
+      )}
+
+      {(!showScratchCard && !showShlokIntro) && (
+        <main className={currentStep === 0 ? "h-[100dvh] overflow-hidden" : "min-h-screen overflow-hidden pb-28 md:pb-32"}>
       {/* ============ 1. SACRED WELCOME ============ */}
       {currentStep === 0 && (
-      <section className="step-screen relative min-h-[calc(100vh-7rem)] md:min-h-[calc(100vh-8rem)] flex items-center justify-center px-4 pt-8 pb-4 md:pt-10 md:pb-6 overflow-hidden bg-maroon-deep">
-        {/* Fullscreen Rich Background Layer */}
-        <div
-          className="absolute inset-0 opacity-30"
-          style={{
-            backgroundImage: `url(${heroBg})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-          aria-hidden="true"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#2a0808]/85 via-maroon-deep/80 to-[#1a0f0a]/90" aria-hidden="true" />
-
-        {/* Floating Ambient Motes (stable, lightweight) */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {welcomeMotes.map((m, i) => (
-            <div
-              key={i}
-              className="absolute w-1.5 h-1.5 rounded-full bg-gold/40 animate-[floatSlow_8s_ease-in-out_infinite]"
-              style={{ left: `${m.left}%`, top: `${m.top}%`, animationDelay: `${m.delay}s` }}
+      <section className="step-screen relative h-full flex items-center justify-center px-4 overflow-hidden paper-surface premium-glow bg-gradient-to-b from-ivory to-sandal/30">
+        
+        {/* Background Ambient Animation */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-40">
+          {welcomeMotes.map((mote, index) => (
+            <span
+              key={`welcome-mote-${index}`}
+              className="absolute w-2 h-2 rounded-full bg-[radial-gradient(circle,hsl(var(--gold)),transparent)] opacity-0 animate-[shlokMoteFall_linear_infinite]"
+              style={
+                {
+                  left: `${mote.left}%`,
+                  animationDelay: `${mote.delay}s`,
+                  animationDuration: `${5 + (index % 4)}s`,
+                  filter: "blur(1px) drop-shadow(0 0 10px hsl(var(--gold)/0.8))"
+                } as React.CSSProperties
+              }
             />
           ))}
         </div>
 
-        {/* Elegant Perimeter Frame */}
-        <div className="absolute inset-4 md:inset-8 border-x border-y border-gold/20 rounded-[2rem] pointer-events-none flex items-center justify-center">
-            {/* Corner Ornaments */}
-            <div className="absolute top-0 left-0 w-12 h-12 border-t border-l border-gold/50 rounded-tl-[2rem]"></div>
-            <div className="absolute top-0 right-0 w-12 h-12 border-t border-r border-gold/50 rounded-tr-[2rem]"></div>
-            <div className="absolute bottom-0 left-0 w-12 h-12 border-b border-l border-gold/50 rounded-bl-[2rem]"></div>
-            <div className="absolute bottom-0 right-0 w-12 h-12 border-b border-r border-gold/50 rounded-br-[2rem]"></div>
+        <div className="absolute inset-0 opacity-40 pointer-events-none animate-[fadeIn_2s_ease-out]">
+            {/* Animated Corner Ornaments */}
+            <div className="absolute top-4 left-4 w-16 h-16 border-t-2 border-l-2 border-gold-deep/60 rounded-tl-[1.5rem] animate-[fadeUp_1s_ease-out_0.2s_both]"></div>
+            <div className="absolute top-4 right-4 w-16 h-16 border-t-2 border-r-2 border-gold-deep/60 rounded-tr-[1.5rem] animate-[fadeUp_1s_ease-out_0.4s_both]"></div>
+            <div className="absolute bottom-4 left-4 w-16 h-16 border-b-2 border-l-2 border-gold-deep/60 rounded-bl-[1.5rem] animate-[fadeUp_1s_ease-out_0.6s_both]"></div>
+            <div className="absolute bottom-4 right-4 w-16 h-16 border-b-2 border-r-2 border-gold-deep/60 rounded-br-[1.5rem] animate-[fadeUp_1s_ease-out_0.8s_both]"></div>
         </div>
 
-        {/* Glowing Central Element */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vmin] h-[80vmin] max-w-[600px] max-h-[600px] bg-[radial-gradient(circle,hsl(var(--gold)/0.12)_0%,transparent_60%)] rounded-full pointer-events-none z-0"></div>
+        {/* Traditional Hindu Top Ornaments (Hanging Bells & Om) */}
+        <div className="absolute top-0 left-0 w-full h-24 md:h-32 overflow-hidden pointer-events-none animate-[fadeIn_3s_ease-out_0.3s_both]">
+           <HangingBell left="15%" scale={0.5} delay="0s" />
+           <HangingBell left="35%" scale={0.4} delay="1s" />
+           <HangingBell left="65%" scale={0.4} delay="0.5s" />
+           <HangingBell left="85%" scale={0.5} delay="1.5s" />
+        </div>
+        
+        <div className="absolute top-12 md:top-16 inset-x-0 w-full flex flex-col items-center pointer-events-none animate-[fadeUp_1s_ease-out_0.5s_both]">
+           <span className="text-vermilion/90 text-2xl md:text-3xl mb-1 md:mb-2 drop-shadow-sm font-serif-elegant">ॐ</span>
+           <p className="font-display text-[0.55rem] md:text-[0.7rem] uppercase tracking-[0.45em] md:tracking-[0.8em] text-gold-deep/80 text-center mb-1.5 md:mb-2.5">
+             The Wedding Celebration
+           </p>
+           <div className="w-16 md:w-24 h-[1px] bg-gradient-to-r from-transparent via-gold-deep/60 to-transparent"></div>
+        </div>
 
-        {/* Main Content Floating directly on the background */}
-        <div className="step-surface relative z-10 text-center w-full max-w-3xl mx-auto flex flex-col items-center select-none">
+        {/* Bottom Balance Filler */}
+        <div className="absolute bottom-10 md:bottom-16 inset-x-0 w-full flex flex-col items-center pointer-events-none animate-[fadeUp_1s_ease-out_0.9s_both]">
+           <div className="w-16 md:w-24 h-[1px] bg-gradient-to-r from-transparent via-gold-deep/60 to-transparent mb-1.5 md:mb-2"></div>
+           <p className="font-script text-2xl md:text-4xl text-maroon-deep/30 text-center">
+             {couple.initials}
+           </p>
+        </div>
 
-          <div className="seal-reveal flex justify-center drop-shadow-[0_0_20px_rgba(212,175,55,0.5)] mb-3 md:mb-5">
+        {/* Main Content */}
+        <div className="step-surface relative z-10 text-center w-full max-w-3xl mx-auto flex flex-col items-center select-none p-4 md:p-10 luxury-card ornate-border bg-ivory/80 backdrop-blur-sm scale-95 sm:scale-100">
+          
+          {/* Inner Box Decoration */}
+          <div className="absolute inset-[-6px] border border-gold/20 rounded-lg pointer-events-none" aria-hidden="true"></div>
+
+          <div className="seal-reveal flex justify-center mb-1.5 md:mb-3">
             <div className="relative">
-               <GaneshMark size={92} className="md:!w-[130px] md:!h-[130px] opacity-90 drop-shadow-md" />
-               <div className="absolute inset-0 border border-gold/30 rounded-full animate-[inviteRing_3s_ease-out_infinite]"></div>
+               <GaneshMark size={55} className="md:!w-[90px] md:!h-[90px] opacity-90 text-maroon-deep drop-shadow-sm animate-[floatSlow_6s_ease-in-out_infinite]" />
+               <div className="absolute inset-0 border-2 border-gold/40 rounded-full animate-[inviteRing_3s_ease-out_infinite]"></div>
             </div>
           </div>
 
-          <p className="font-script text-2xl md:text-4xl text-gold-soft fade-in tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-bold flex items-center justify-center gap-3" style={{ animationDelay: "0.4s" }}>
-            <span className="text-gold-deep text-xl md:text-2xl">✤</span> 
-            Shree Ganeshaya Namah 
-            <span className="text-gold-deep text-xl md:text-2xl">✤</span>
-          </p>
+          <div className="font-script text-2xl md:text-4xl text-maroon-deep fade-in tracking-wider md:tracking-widest font-bold flex flex-wrap items-center justify-center gap-2 md:gap-3 w-full px-2" style={{ animationDelay: "0.4s" }}>
+            <span className="text-gold-deep text-base md:text-xl animate-[pulse_3s_infinite] shrink-0">✤</span> 
+            <span className="text-center">Shree Ganeshaya Namah</span>
+            <span className="text-gold-deep text-base md:text-xl animate-[pulse_3s_infinite] shrink-0">✤</span>
+          </div>
 
-          <div className="fade-up flex flex-col items-center w-full mt-3 md:mt-5" style={{ animationDelay: "0.7s" }}>
-            <div className="my-2 md:my-3 w-full max-w-[220px] opacity-80 filter drop-shadow-[0_0_8px_rgba(212,175,55,0.5)]">
+          <div className="fade-up flex flex-col items-center w-full mt-2 md:mt-5" style={{ animationDelay: "0.7s" }}>
+            <div className="my-1 md:my-2 w-full max-w-[150px] md:max-w-[200px] opacity-80">
               <GoldDivider />
             </div>
             
-            <p className="font-display text-[0.6rem] md:text-xs uppercase tracking-[0.45em] md:tracking-[0.6em] text-ivory/80 mb-3 md:mb-5 pb-1 border-b border-gold/30">
+            <p className="font-display text-[0.55rem] md:text-[0.7rem] uppercase tracking-[0.5em] md:tracking-[0.7em] text-maroon/70 mb-2 md:mb-5 pb-1 md:pb-1.5 border-b border-gold/30">
               Dear {guestName}
             </p>
             
-            <div className="flex flex-col items-center mb-3 md:mb-5 w-full relative">
-                <h1 className="font-display text-4xl md:text-7xl text-ivory leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)] font-normal z-10">
+            <div className="flex flex-col items-center mb-2 md:mb-5 w-full relative">
+                <h1 className="font-display text-4xl md:text-6xl text-maroon-deep leading-tight font-normal z-10 drop-shadow-sm">
                 {couple.bride.split(" ")[0]}
                 </h1>
                 
-                <span className="font-script text-4xl md:text-6xl text-gold-deep my-1 md:my-2 z-10 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] italic">weds</span>
+                <span className="font-script text-3xl md:text-5xl text-vermilion my-0 md:my-1 z-10 italic drop-shadow-sm animate-[floatSlow_5s_ease-in-out_infinite]">weds</span>
                 
-                <h1 className="font-display text-4xl md:text-7xl text-ivory leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)] font-normal z-10">
+                <h1 className="font-display text-4xl md:text-6xl text-maroon-deep leading-tight font-normal z-10 drop-shadow-sm">
                 {couple.groom.split(" ")[0]}
                 </h1>
             </div>
             
-            <p className="font-serif-elegant italic text-base md:text-xl text-ivory/90 mb-2 md:mb-3 px-4 font-medium drop-shadow-md">
+            <p className="font-serif-elegant italic text-sm md:text-lg text-maroon/80 mb-2 md:mb-4 px-4 font-medium">
               To begin their journey of eternal love
             </p>
             
-            <div className="flex items-center gap-3 mb-3 md:mb-5 opacity-90">
-                <span className="h-[1px] w-8 md:w-12 bg-gold/50"></span>
-                <p className="font-display text-[0.6rem] md:text-xs uppercase tracking-[0.25em] md:tracking-[0.4em] text-gold-soft font-semibold drop-shadow-md">
+            <div className="flex items-center gap-2 md:gap-4 mb-3 md:mb-5 opacity-90">
+                <span className="h-[1px] w-4 md:w-10 bg-gold/50"></span>
+                <p className="font-display text-[0.55rem] md:text-[0.7rem] uppercase tracking-[0.25em] md:tracking-[0.4em] text-gold-deep font-bold drop-shadow-[0_0_8px_rgba(212,175,55,0.3)]">
                 {weddingDateLabel} 
-                <span className="text-ivory/50 mx-2 md:mx-4">|</span> 
+                <span className="text-maroon/30 mx-2 md:mx-4">|</span> 
                 {destination}
                 </p>
-                <span className="h-[1px] w-8 md:w-12 bg-gold/50"></span>
+                <span className="h-[1px] w-4 md:w-10 bg-gold/50"></span>
             </div>
 
-            <div className="mt-2 md:mt-4 relative w-full flex justify-center">
-              <button type="button" onClick={() => setCurrentStep(1)} className="btn-royal btn-open-invitation group !px-10 !py-4 md:!px-14 md:!py-5 rounded-full overflow-hidden shadow-[0_0_40px_rgba(212,175,55,0.4)] border-1 border-gold/80">
-                <span className="relative z-10 flex items-center gap-3 text-[0.7rem] md:text-sm font-semibold tracking-[0.3em] md:tracking-[0.4em] text-ivory uppercase">
-                  Open Invitation <span className="text-gold-deep group-hover:translate-y-1 transition-transform text-lg">▼</span>
+            <div className="mt-2 md:mt-4 relative w-full flex justify-center pb-1 md:pb-2">
+              <button type="button" onClick={() => setCurrentStep(1)} className="btn-royal btn-open-invitation group !px-6 !py-3 md:!px-12 md:!py-4 rounded-full overflow-hidden shadow-[0_10px_40px_-10px_rgba(128,0,0,0.5)] border border-gold/80 hover:border-gold scale-100 md:scale-110">
+                <span className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.2)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+                <span className="relative z-10 flex items-center gap-2 md:gap-3 text-[0.55rem] md:text-xs font-bold tracking-[0.35em] md:tracking-[0.45em] text-ivory uppercase drop-shadow-md">
+                  Open Invitation <span className="text-gold-soft group-hover:translate-y-1.5 transition-transform duration-300 text-base md:text-lg">▼</span>
                 </span>
               </button>
             </div>
@@ -687,37 +787,40 @@ const Index = () => {
       </footer>
       )}
 
-      <div className="fixed bottom-4 left-1/2 z-50 w-[min(92vw,760px)] -translate-x-1/2 rounded-2xl border border-gold/30 bg-ivory/95 px-4 py-3 shadow-lg">
-        <div className="flex items-center justify-between gap-3">
-          <button
-            type="button"
-            onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}
-            disabled={currentStep === 0}
-            className="btn-ghost-gold !px-4 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Back
-          </button>
+      {currentStep > 0 && (
+        <div className="fixed bottom-4 left-1/2 z-50 w-[min(92vw,760px)] -translate-x-1/2 rounded-2xl border border-gold/30 bg-ivory/95 px-4 py-3 shadow-lg">
+          <div className="flex items-center justify-between gap-3">
+            <button
+              type="button"
+              onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}
+              className="btn-ghost-gold !px-4"
+            >
+              Back
+            </button>
 
-          <div className="text-center min-w-0">
-            <p className="font-display text-[0.6rem] md:text-[0.65rem] uppercase tracking-[0.3em] text-gold-deep">
-              Step {currentStep + 1} of {totalSteps}
-            </p>
-            <p className="font-serif-elegant italic text-maroon-deep text-sm md:text-base truncate">
-              {stepTitleByIndex[currentStep]}
-            </p>
+            <div className="text-center min-w-0">
+              <p className="font-display text-[0.6rem] md:text-[0.65rem] uppercase tracking-[0.3em] text-gold-deep">
+                Step {currentStep} of {totalSteps - 1}
+              </p>
+              <p className="font-serif-elegant italic text-maroon-deep text-sm md:text-base truncate">
+                {stepTitleByIndex[currentStep]}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setCurrentStep((prev) => Math.min(prev + 1, totalSteps - 1))}
+              disabled={currentStep === totalSteps - 1}
+              className="btn-royal !px-4 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Next
+            </button>
           </div>
-
-          <button
-            type="button"
-            onClick={() => setCurrentStep((prev) => Math.min(prev + 1, totalSteps - 1))}
-            disabled={currentStep === totalSteps - 1}
-            className="btn-royal !px-4 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Next
-          </button>
         </div>
-      </div>
+      )}
     </main>
+    )}
+    </>
   );
 };
 
