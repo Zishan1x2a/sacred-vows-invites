@@ -149,25 +149,196 @@
     transform: translateX(-100%); transition: transform 0.8s;
   }
   .btn-royal:hover::after { transform: translateX(100%); }
-  .btn-open-invitation {
-    animation: invitePulse 2.4s ease-in-out infinite;
+  /* === Premium "Open Invitation" CTA === */
+  .invite-cta-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    isolation: isolate;
+    padding: 14px;
   }
-  .btn-open-invitation::before {
-    content: "";
+  .invite-halo {
     position: absolute;
-    inset: -2px;
-    border-radius: inherit;
-    border: 1px solid hsl(var(--gold) / 0.75);
-    box-shadow: 0 0 22px hsl(var(--gold) / 0.42), 0 0 48px hsl(var(--vermilion) / 0.2);
-    opacity: 0.7;
-    animation: inviteRing 2.2s ease-out infinite;
+    inset: -18px;
+    border-radius: 999px;
+    background:
+      radial-gradient(closest-side, hsl(var(--gold) / 0.45), transparent 70%),
+      radial-gradient(closest-side, hsl(var(--vermilion) / 0.25), transparent 75%);
+    filter: blur(14px);
+    opacity: 0.85;
+    z-index: -1;
+    animation: inviteHaloPulse 3.6s ease-in-out infinite;
     pointer-events: none;
   }
-  .btn-open-invitation:hover {
-    transform: translateY(-3px) scale(1.03);
+  .invite-orbit {
+    position: absolute;
+    border-radius: 999px;
+    border: 1px solid hsl(var(--gold) / 0.5);
+    pointer-events: none;
+    z-index: -1;
   }
-  .btn-open-invitation:active {
-    transform: translateY(-1px) scale(0.985);
+  .invite-orbit-1 {
+    inset: -6px;
+    border-style: dashed;
+    border-color: hsl(var(--gold) / 0.55);
+    animation: inviteOrbitSpin 14s linear infinite;
+  }
+  .invite-orbit-2 {
+    inset: -14px;
+    border-color: hsl(var(--gold-soft) / 0.35);
+    border-top-color: hsl(var(--gold) / 0.85);
+    animation: inviteOrbitSpin 9s linear infinite reverse;
+  }
+  .invite-spark {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: radial-gradient(circle, hsl(var(--ivory)) 0%, hsl(var(--gold)) 45%, transparent 70%);
+    box-shadow: 0 0 10px hsl(var(--gold) / 0.9), 0 0 22px hsl(var(--gold) / 0.6);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .invite-spark-1 { top: 4px; left: 18%; animation: inviteSpark 3.2s ease-in-out infinite; }
+  .invite-spark-2 { top: 50%; right: 4px; animation: inviteSpark 3.2s ease-in-out 0.8s infinite; }
+  .invite-spark-3 { bottom: 6px; left: 32%; animation: inviteSpark 3.2s ease-in-out 1.6s infinite; }
+  .invite-spark-4 { top: 30%; left: 4px; animation: inviteSpark 3.2s ease-in-out 2.4s infinite; }
+
+  .btn-open-invitation {
+    position: relative;
+    overflow: hidden;
+    border: 0;
+    color: hsl(var(--ivory));
+    background: transparent;
+    cursor: pointer;
+    transform: translateZ(0);
+    transition: transform 0.5s var(--transition-royal), filter 0.5s var(--transition-royal);
+    filter: drop-shadow(0 14px 28px hsl(var(--maroon) / 0.45));
+    animation: invitePulse 2.6s ease-in-out infinite;
+  }
+  .invite-conic {
+    position: absolute;
+    inset: -2px;
+    border-radius: 999px;
+    padding: 1.5px;
+    background: conic-gradient(
+      from 0deg,
+      hsl(var(--gold-soft)),
+      hsl(var(--gold)),
+      hsl(var(--ivory)),
+      hsl(var(--gold-deep)),
+      hsl(var(--gold-soft))
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    animation: inviteOrbitSpin 6s linear infinite;
+    pointer-events: none;
+  }
+  .invite-core {
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background:
+      radial-gradient(120% 180% at 50% 0%, hsl(var(--vermilion) / 0.55), transparent 60%),
+      linear-gradient(135deg, hsl(var(--maroon-deep)) 0%, hsl(var(--maroon)) 50%, hsl(var(--maroon-deep)) 100%);
+    box-shadow:
+      inset 0 1px 0 hsl(var(--gold-soft) / 0.55),
+      inset 0 -10px 24px hsl(0 0% 0% / 0.45),
+      inset 0 0 0 1px hsl(var(--gold) / 0.45);
+    pointer-events: none;
+  }
+  .invite-sheen {
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .invite-sheen::before {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0;
+    left: -40%;
+    width: 35%;
+    background: linear-gradient(
+      100deg,
+      transparent 0%,
+      hsl(var(--ivory) / 0.0) 20%,
+      hsl(var(--ivory) / 0.55) 50%,
+      hsl(var(--ivory) / 0.0) 80%,
+      transparent 100%
+    );
+    transform: skewX(-18deg);
+    animation: inviteSheen 3.4s ease-in-out infinite;
+  }
+  .invite-inner-ring {
+    position: absolute;
+    inset: 4px;
+    border-radius: 999px;
+    border: 1px dashed hsl(var(--gold) / 0.55);
+    pointer-events: none;
+    opacity: 0.85;
+    transition: opacity 0.4s ease, transform 0.6s var(--transition-royal);
+  }
+  .invite-label {
+    color: hsl(var(--ivory));
+    text-shadow: 0 1px 0 hsl(var(--maroon-deep)), 0 0 14px hsl(var(--gold) / 0.55);
+    background: linear-gradient(180deg, hsl(40 60% 98%), hsl(var(--gold-soft)) 60%, hsl(var(--gold)) 100%);
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .invite-leaf {
+    color: hsl(var(--gold-soft));
+    -webkit-text-fill-color: hsl(var(--gold-soft));
+    display: inline-block;
+    animation: inviteLeafSpin 6s linear infinite;
+    text-shadow: 0 0 10px hsl(var(--gold) / 0.7);
+  }
+  .invite-chevron {
+    -webkit-text-fill-color: hsl(var(--gold-soft));
+    color: hsl(var(--gold-soft));
+    display: inline-block;
+    transition: transform 0.4s var(--transition-royal);
+    animation: inviteChevronBob 1.8s ease-in-out infinite;
+  }
+  .btn-open-invitation:hover {
+    transform: translateY(-3px) scale(1.04);
+    filter: drop-shadow(0 22px 40px hsl(var(--maroon) / 0.55)) drop-shadow(0 0 24px hsl(var(--gold) / 0.5));
+  }
+  .btn-open-invitation:hover .invite-chevron { transform: translateY(3px); }
+  .btn-open-invitation:hover .invite-inner-ring { transform: scale(0.96); opacity: 1; }
+  .btn-open-invitation:active { transform: translateY(-1px) scale(0.99); }
+  .btn-open-invitation:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px hsl(var(--ivory)), 0 0 0 5px hsl(var(--gold));
+  }
+
+  @keyframes inviteHaloPulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.06); }
+  }
+  @keyframes inviteOrbitSpin {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes inviteSheen {
+    0% { left: -40%; }
+    60%, 100% { left: 130%; }
+  }
+  @keyframes inviteSpark {
+    0%, 100% { opacity: 0; transform: scale(0.6); }
+    40% { opacity: 1; transform: scale(1.1); }
+    70% { opacity: 0.4; transform: scale(0.9); }
+  }
+  @keyframes inviteLeafSpin {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes inviteChevronBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(2px); }
   }
 
   .btn-ghost-gold {
