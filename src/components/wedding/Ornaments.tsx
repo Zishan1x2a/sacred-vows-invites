@@ -1,7 +1,7 @@
 import ganeshSeal from "@/assets/ganesh-seal.png";
 
-export const GoldDivider = ({ ornament = true }: { ornament?: boolean }) => (
-  <div className="gold-divider my-10 md:my-14">
+export const GoldDivider = ({ ornament = true, className = "" }: { ornament?: boolean; className?: string }) => (
+  <div className={`gold-divider my-6 md:my-8 ${className}`}>
     {ornament && (
       <span className="text-gold text-2xl md:text-3xl float-slow" aria-hidden="true">❋</span>
     )}

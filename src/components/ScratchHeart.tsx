@@ -14,12 +14,15 @@ export const ScratchHeart: React.FC<ScratchHeartProps> = ({ onReveal, onScratchC
   
   const isDrawing = useRef(false);
   const lastPos = useRef<{ x: number; y: number } | null>(null);
+  const hasStartedScratching = useRef(false);
+  const animationFrameId = useRef<number>();
 
   useEffect(() => {
     // Disable body scroll when mounted
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = '';
+      if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
     };
   }, []);
 
@@ -30,18 +33,25 @@ export const ScratchHeart: React.FC<ScratchHeartProps> = ({ onReveal, onScratchC
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     if (!ctx) return;
 
-    const resizeCanvas = () => {
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      ctx.scale(dpr, dpr);
-      canvas.style.width = `${window.innerWidth}px`;
-      canvas.style.height = `${window.innerHeight}px`;
+    let w = window.innerWidth;
+    let h = window.innerHeight;
 
-      drawInitialState(ctx, window.innerWidth, window.innerHeight);
+    const drawHeartPath = (ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number) => {
+      ctx.save();
+      ctx.beginPath();
+      const topCurveHeight = height * 0.3;
+      ctx.moveTo(x, y + topCurveHeight);
+      ctx.bezierCurveTo(x, y, x - width / 2, y, x - width / 2, y + topCurveHeight);
+      ctx.bezierCurveTo(x - width / 2, y + (height + topCurveHeight) / 2, x, y + height, x, y + height);
+      ctx.bezierCurveTo(x, y + height, x + width / 2, y + (height + topCurveHeight) / 2, x + width / 2, y + topCurveHeight);
+      ctx.bezierCurveTo(x + width / 2, y, x, y, x, y + topCurveHeight);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
     };
 
-    const drawInitialState = (ctx: CanvasRenderingContext2D, w: number, h: number) => {
+    const drawState = (scale: number, glowAlpha: number, time: number) => {
+      ctx.save();
       ctx.globalCompositeOperation = 'source-over';
       
       // Fill dark cinematic background
@@ -53,7 +63,8 @@ export const ScratchHeart: React.FC<ScratchHeartProps> = ({ onReveal, onScratchC
       ctx.fillRect(0, 0, w, h);
 
       // Draw Gold Heart
-      const heartWidth = Math.min(w * 0.8, 350);
+      const baseHeartWidth = Math.min(w * 0.8, 350);
+      const heartWidth = baseHeartWidth * scale;
       const heartHeight = heartWidth * 0.9;
       const x = w / 2;
       const y = h / 2 - heartHeight / 5;
@@ -64,8 +75,8 @@ export const ScratchHeart: React.FC<ScratchHeartProps> = ({ onReveal, onScratchC
       goldGrad.addColorStop(1, '#8a6d1c');
 
       ctx.fillStyle = goldGrad;
-      ctx.shadowColor = 'rgba(212, 175, 55, 0.8)';
-      ctx.shadowBlur = 50;
+      ctx.shadowColor = `rgba(212, 175, 55, ${glowAlpha})`;
+      ctx.shadowBlur = 30 + glowAlpha * 45; // Dynamic pulsing glow
 
       drawHeartPath(ctx, x, y, heartWidth, heartHeight);
 
@@ -73,66 +84,73 @@ export const ScratchHeart: React.FC<ScratchHeartProps> = ({ onReveal, onScratchC
       ctx.shadowBlur = 0;
       const fontSize = Math.max(20, heartWidth * 0.09);
       ctx.font = `italic 600 ${fontSize}px "Cormorant Garamond", serif`;
-      ctx.fillStyle = '#4a0f0f'; // Deeper elegant red
+      ctx.fillStyle = '#4a0f0f'; 
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      
-      // The visual center of the heart is around 45% down from its origin
       ctx.fillText('Scratch gently', x, y + heartHeight * 0.42);
       
       ctx.font = `italic 400 ${fontSize * 0.75}px "Cormorant Garamond", serif`;
       ctx.fillStyle = '#5a1515';
       ctx.fillText('to reveal', x, y + heartHeight * 0.56);
       
-      // Floating particles effect
-      for(let i=0; i<30; i++) {
-        ctx.beginPath();
-        ctx.arc(
-          Math.random() * w, 
-          Math.random() * h, 
-          Math.random() * 2 + 0.5, 
-          0, Math.PI * 2
-        );
-        ctx.fillStyle = `rgba(212, 175, 55, ${Math.random() * 0.5})`;
-        ctx.fill();
+      // Floating royal particles effect
+      for(let i=0; i<35; i++) {
+        const speed = (i % 3) + 1;
+        const px = (w * ((i * 137.5) % 100) / 100 + Math.sin(time * speed + i) * 20) % w;
+        const py = (h + (h * ((i * 149.3) % 100) / 100) - time * 30 * speed) % (h * 1.5) - h * 0.25;
+        
+        if (py > -50 && py < h + 50) {
+          ctx.beginPath();
+          ctx.arc(Math.abs(px), py, (i % 3) * 0.8 + 0.5, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(212, 175, 55, ${Math.sin(time * 2 + i) * 0.3 + 0.4})`;
+          ctx.fill();
+        }
       }
-    };
 
-    const drawHeartPath = (ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number) => {
-      ctx.save();
-      ctx.beginPath();
-      const topCurveHeight = height * 0.3;
-      ctx.moveTo(x, y + topCurveHeight);
-      ctx.bezierCurveTo(
-          x, y, 
-          x - width / 2, y, 
-          x - width / 2, y + topCurveHeight
-      );
-      ctx.bezierCurveTo(
-          x - width / 2, y + (height + topCurveHeight) / 2, 
-          x, y + (height + topCurveHeight) / 2, 
-          x, y + height
-      );
-      ctx.bezierCurveTo(
-          x, y + (height + topCurveHeight) / 2, 
-          x + width / 2, y + (height + topCurveHeight) / 2, 
-          x + width / 2, y + topCurveHeight
-      );
-      ctx.bezierCurveTo(
-          x + width / 2, y, 
-          x, y, 
-          x, y + topCurveHeight
-      );
-      ctx.closePath();
-      ctx.fill();
       ctx.restore();
     };
 
-    // Delay drawing slightly to ensure fonts are loaded
-    setTimeout(() => resizeCanvas(), 100);
+    const renderLoop = () => {
+      if (hasStartedScratching.current) return;
+
+      const time = Date.now() * 0.001;
+      const scale = 1 + Math.sin(time * 2.5) * 0.025; // 2.5% breathing scale
+      const glowAlpha = 0.5 + Math.sin(time * 3.5) * 0.4; // Pulsing glow intensity
+
+      drawState(scale, glowAlpha, time);
+      
+      animationFrameId.current = requestAnimationFrame(renderLoop);
+    };
+
+    const resizeCanvas = () => {
+      w = window.innerWidth;
+      h = window.innerHeight;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.scale(dpr, dpr);
+      canvas.style.width = `${w}px`;
+      canvas.style.height = `${h}px`;
+
+      if (hasStartedScratching.current) {
+        drawState(1, 0.6, 0); // Static draw if they resize after scratching
+      }
+    };
+
+    // Delay slightly to ensure fonts are loaded, then start animation
+    setTimeout(() => {
+      resizeCanvas();
+      if (!hasStartedScratching.current) {
+        renderLoop();
+      }
+    }, 100);
+
     window.addEventListener('resize', resizeCanvas);
 
-    return () => window.removeEventListener('resize', resizeCanvas);
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+      if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
+    };
   }, []);
 
   const getPos = (e: React.MouseEvent | React.TouchEvent | TouchEvent) => {
@@ -155,6 +173,7 @@ export const ScratchHeart: React.FC<ScratchHeartProps> = ({ onReveal, onScratchC
   const handleStart = (e: React.MouseEvent | React.TouchEvent) => {
     if (isRevealed) return;
     isDrawing.current = true;
+    hasStartedScratching.current = true;
     lastPos.current = getPos(e);
   };
 
@@ -285,7 +304,7 @@ export const ScratchHeart: React.FC<ScratchHeartProps> = ({ onReveal, onScratchC
   }, [isRevealed]);
 
   return (
-    <div className={`fixed inset-0 z-[100] bg-[#2a0808] transition-all duration-[1.5s] ease-in-out ${fadeOut ? 'opacity-0 pointer-events-none scale-110' : 'opacity-100 scale-100'}`}>
+    <div className={`fixed inset-0 z-[100] bg-[#2a0808] transition-all [transition-duration:1.5s] ease-in-out ${fadeOut ? 'opacity-0 pointer-events-none scale-110' : 'opacity-100 scale-100'}`}>
       
       {/* Underlying revealed content (what they see through the scratch) */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none opacity-90">
@@ -307,7 +326,7 @@ export const ScratchHeart: React.FC<ScratchHeartProps> = ({ onReveal, onScratchC
         onTouchMove={handleMove}
         onTouchEnd={handleEnd}
         onTouchCancel={handleEnd}
-        className={`absolute inset-0 cursor-crosshair touch-none transition-opacity duration-[1.5s] ${isRevealed ? 'opacity-0' : 'opacity-100'}`}
+        className={`absolute inset-0 cursor-crosshair touch-none transition-opacity [transition-duration:1.5s] ${isRevealed ? 'opacity-0' : 'opacity-100'}`}
       />
     </div>
   );

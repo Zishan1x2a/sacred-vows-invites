@@ -104,7 +104,7 @@ export const EventCard = ({ event, index }: { event: EventData; index: number })
         rel="noopener noreferrer"
         className="btn-ghost-gold w-full flex items-center justify-center gap-2 group/btn relative z-10 overflow-hidden rounded-full py-3 font-semibold text-xs tracking-[0.2em] border-gold/40 hover:border-gold hover:text-maroon-deep transition-colors duration-300"
       >
-        <span className="absolute inset-0 bg-gold/10 translate-y-[101%] group-hover/btn:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] rounded-full"></span>
+        <span className="absolute inset-0 bg-gold/10 translate-y-[101%] group-hover/btn:translate-y-0 transition-transform duration-500 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] rounded-full"></span>
         <MapPin className="w-4 h-4 relative z-10 group-hover/btn:animate-[bounce_1s_infinite]" /> 
         <span className="relative z-10">Open in Maps</span>
       </a>
